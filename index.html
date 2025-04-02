@@ -623,7 +623,7 @@
                 <div class="summary-card urgent">
                     <i class="fas fa-exclamation-circle"></i>
                     <a href="#" class="filter-button urgent" onclick="filterData(''); return false;">ALL</a>
-                    <div class="count" id="Count">0</div>
+                    <div class="count" id="totalCount">0</div>
                     <p>Total Clients</p>
                 </div>
                 <div class="summary-card urgent">
@@ -694,7 +694,7 @@
                 </div>
             </div>
 
- <div class="table-container">
+            <div class="table-container">
                 <table class="dataTable">
                     <thead>
                         <tr>
@@ -1332,6 +1332,9 @@
 
                     renderTable(data);
                     renderMobileCards(data);
+                    
+                    // Update counts in dashboard
+                    updateCounts(allClientsData);
                 })
                 .catch(error => {
                     console.error("Error fetching data:", error);
@@ -1344,6 +1347,23 @@
                     document.getElementById("mobileCardsContainer").innerHTML = '';
                     document.getElementById("mobileCardsContainer").appendChild(errorMessage.cloneNode(true));
                 });
+        }
+
+        function updateCounts(data) {
+            if (!data || !data.length) return;
+            
+            document.getElementById('totalCount').textContent = data.length;
+            document.getElementById('urgentCount').textContent = data.filter(item => item.status === 'URGENT').length;
+            document.getElementById('pendingCount').textContent = data.filter(item => item.status === 'PENDING').length;
+            document.getElementById('docsCount').textContent = data.filter(item => item.status === 'DOCS').length;
+            document.getElementById('newCount').textContent = data.filter(item => item.status === 'NEW').length;
+            document.getElementById('doneCount').textContent = data.filter(item => item.status === 'DONE').length;
+            document.getElementById('otpCount').textContent = data.filter(item => item.status === 'OTP').length;
+            document.getElementById('remindCount').textContent = data.filter(item => item.status === 'REMIND').length;
+            document.getElementById('callCount').textContent = data.filter(item => item.status === 'CALL').length;
+            document.getElementById('balCount').textContent = data.filter(item => item.status === 'BAL').length;
+            document.getElementById('ratingCount').textContent = data.filter(item => item.status === 'RATING').length;
+            document.getElementById('tobeCount').textContent = data.filter(item => item.status === 'TO BE').length;
         }
 
         function renderTable(data) {
@@ -1591,25 +1611,12 @@
             // In a real app, this would fetch data from your backend
             // For demo purposes, we'll use the allClientsData if available or mock data
             
-            const data = allClientsData.length > 0 ? allClientsData : [];
-            
-            // Update summary cards
-            document.getElementById('Count').textContent = data.length;
-            document.getElementById('urgentCount').textContent = data.filter(item => item.status === 'URGENT').length;
-            document.getElementById('pendingCount').textContent = data.filter(item => item.status === 'PENDING').length;
-            document.getElementById('docsCount').textContent = data.filter(item => item.status === 'DOCS').length;
-            document.getElementById('newCount').textContent = data.filter(item => item.status === 'NEW').length;
-            document.getElementById('doneCount').textContent = data.filter(item => item.status === 'DONE').length;
-            document.getElementById('otpCount').textContent = data.filter(item => item.status === 'OTP').length;
-            document.getElementById('remindCount').textContent = data.filter(item => item.status === 'REMIND').length;
-            document.getElementById('callCount').textContent = data.filter(item => item.status === 'CALL').length;
-            document.getElementById('balCount').textContent = data.filter(item => item.status === 'BAL').length;
-            document.getElementById('ratingCount').textContent = data.filter(item => item.status === 'RATING').length;
-            document.getElementById('tobeCount').textContent = data.filter(item => item.status === 'TO BE').length;
-
-            // Load recent clients (last 5 records)
-            const recentClients = data.slice(0, 5);
-            renderRecentClients(recentClients);
+            if (allClientsData.length > 0) {
+                updateCounts(allClientsData);
+                renderRecentClients(allClientsData.slice(0, 5));
+            } else {
+                fetchData();
+            }
         }
 
         function renderRecentClients(data) {
