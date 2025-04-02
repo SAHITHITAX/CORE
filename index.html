@@ -143,7 +143,6 @@
             grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
             gap: 20px;
             margin-bottom: 30px;
-	    hight: 150px;
         }
 
         .summary-card {
@@ -291,8 +290,6 @@
             box-shadow: 0 3px 8px rgba(0, 0, 0, 0.15);
         }
 
-
-
         /* Table Styling - Desktop */
         .table-container {
             width: 100%;
@@ -315,7 +312,6 @@
             text-align: left;
             vertical-align: top;
             word-break: break-word;
-            width: 330px;
         }
 
         .dataTable th {
@@ -404,9 +400,30 @@
             border-radius: 8px 0 0 8px;
         }
 
-
+        /* Status colors */
+        .status-URGENT { color: #e74c3c; font-weight: bold; }
+        .status-PENDING { color: #f39c12; font-weight: bold; }
+        .status-DOCS { color: #9b59b6; font-weight: bold; }
+        .status-NEW { color: #3498db; font-weight: bold; }
+        .status-DONE { color: #2ecc71; font-weight: bold; }
+        .status-OTP { color: #e67e22; font-weight: bold; }
+        .status-REMIND { color: #d35400; font-weight: bold; }
+        .status-CALL { color: #16a085; font-weight: bold; }
+        .status-BAL { color: #c0392b; font-weight: bold; }
+        .status-RATING { color: #8e44ad; font-weight: bold; }
+        .status-TO BE { color: #2c3e50; font-weight: bold; }
 
         /* Responsive adjustments */
+        @media (max-width: 992px) {
+            .summary-cards {
+                grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            }
+            
+            .form-group {
+                min-width: calc(50% - 15px);
+            }
+        }
+
         @media (max-width: 768px) {
             .sidebar {
                 width: 70px;
@@ -429,6 +446,7 @@
             
             .main-content {
                 margin-left: 70px;
+                padding: 15px;
             }
             
             .sidebar:hover ~ .main-content {
@@ -459,6 +477,37 @@
             
             .mobile-card .card-label {
                 min-width: 100px;
+            }
+            
+            .summary-cards {
+                grid-template-columns: 1fr 1fr;
+            }
+            
+            .header h1 {
+                font-size: 20px;
+            }
+            
+            .user-profile span {
+                display: none;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .summary-cards {
+                grid-template-columns: 1fr;
+            }
+            
+            .action-buttons button {
+                font-size: 12px;
+                padding: 4px 6px;
+            }
+            
+            .header {
+                padding: 10px 15px;
+            }
+            
+            .main-content {
+                padding: 10px;
             }
         }
 
@@ -513,6 +562,7 @@
             font-size: 20px;
             cursor: pointer;
             color: #2c3e50;
+            margin-right: 10px;
         }
         
         @media (max-width: 768px) {
@@ -574,7 +624,7 @@
                     <i class="fas fa-exclamation-circle"></i>
                     <a href="#" class="filter-button urgent" onclick="filterData(''); return false;">ALL</a>
                     <div class="count" id="Count">0</div>
-                    <p>Requires immediate attention</p>
+                    <p>Total Clients</p>
                 </div>
                 <div class="summary-card urgent">
                     <i class="fas fa-exclamation-circle"></i>
@@ -582,12 +632,11 @@
                     <div class="count" id="urgentCount">0</div>
                     <p>Requires immediate attention</p>
                 </div>
-
                 <div class="summary-card urgent">
                     <i class="fas fa-exclamation-circle"></i>
                     <a href="#" class="filter-button urgent" onclick="filterData('OTP'); return false;">OTP</a>
                     <div class="count" id="otpCount">0</div>
-                    <p>Requires immediate attention</p>
+                    <p>OTP Required</p>
                 </div>
                 <div class="summary-card pending">
                     <i class="fas fa-clock"></i>
@@ -595,40 +644,39 @@
                     <div class="count" id="pendingCount">0</div>
                     <p>Awaiting action</p>
                 </div>
-  		<div class="summary-card pending">
+                <div class="summary-card pending">
                     <i class="fas fa-clock"></i>
                     <a href="#" class="filter-button pending" onclick="filterData('REMIND'); return false;">REMIND</a>
                     <div class="count" id="remindCount">0</div>
-                    <p>Awaiting action</p>
+                    <p>Reminder needed</p>
                 </div>
-		<div class="summary-card pending">
+                <div class="summary-card pending">
                     <i class="fas fa-clock"></i>
                     <a href="#" class="filter-button pending" onclick="filterData('CALL'); return false;">CALL</a>
                     <div class="count" id="callCount">0</div>
-                    <p>Awaiting action</p>
-		 </div>
-<div class="summary-card pending">
+                    <p>Call required</p>
+                </div>
+                <div class="summary-card pending">
                     <i class="fas fa-clock"></i>
                     <a href="#" class="filter-button pending" onclick="filterData('BAL'); return false;">BAL</a>
                     <div class="count" id="balCount">0</div>
-                    <p>Awaiting action</p>
-		 </div>
-<div class="summary-card pending">
+                    <p>Balance pending</p>
+                </div>
+                <div class="summary-card pending">
                     <i class="fas fa-clock"></i>
                     <a href="#" class="filter-button pending" onclick="filterData('RATING'); return false;">RATING</a>
                     <div class="count" id="ratingCount">0</div>
-                    <p>Awaiting action</p>
-		 </div>
-<div class="summary-card pending">
+                    <p>Rating pending</p>
+                </div>
+                <div class="summary-card pending">
                     <i class="fas fa-clock"></i>
                     <a href="#" class="filter-button pending" onclick="filterData('TO BE'); return false;">TO BE</a>
                     <div class="count" id="tobeCount">0</div>
-                    <p>Awaiting action</p>
-		 </div>
+                    <p>To be processed</p>
+                </div>
                 <div class="summary-card docs">
                     <i class="fas fa-file-alt"></i>
                     <a href="#" class="filter-button docs" onclick="filterData('DOCS'); return false;">DOCS</a>
-
                     <div class="count" id="docsCount">0</div>
                     <p>Waiting for documents</p>
                 </div>
@@ -645,6 +693,7 @@
                     <p>Work finished</p>
                 </div>
             </div>
+
  <div class="table-container">
                 <table class="dataTable">
                     <thead>
@@ -674,24 +723,29 @@
                 <!-- Mobile cards will be inserted here by JavaScript -->
             </div>
 
+            
             <div class="section">
-                <h2>Recent Activities</h2>
+                <h2>Recent Clients</h2>
                 <div class="table-container">
                     <table class="dataTable">
                         <thead>
                             <tr>
-                                <th>Client Name</th>
+                                <th>ID</th>
+                                <th>Name</th>
+                                <th>Mobile</th>
                                 <th>Service</th>
                                 <th>Status</th>
-                                <th>Assignee</th>
                                 <th>Due Date</th>
                                 <th>Actions</th>
                             </tr>
                         </thead>
-                        <tbody id="recentActivitiesTable">
-                            <!-- Recent activities will be inserted here -->
+                        <tbody id="recentClientsTable">
+                            <!-- Recent clients will be inserted here -->
                         </tbody>
                     </table>
+                </div>
+                <div id="recentClientsMobile" class="mobile-cards">
+                    <!-- Mobile cards for recent clients -->
                 </div>
             </div>
         </div>
@@ -705,8 +759,6 @@
                 </div>
                 
                 <form id="dataForm">
-            
-                    
                     <!-- First Row -->
                     <div class="form-row">
                         <div class="form-group">
@@ -721,9 +773,12 @@
                         
                         <div class="form-group">
                             <label for="email">Email:</label>
-                            <input type="email" id="email" name="email" required>
+                            <input type="email" id="email" name="email">
                         </div>
-                        
+                    </div>
+                    
+                    <!-- Second Row -->
+                    <div class="form-row">
                         <div class="form-group">
                             <label for="work">Service Required:</label>
                             <select id="work" name="work" required onchange="updateRequiredDocs()">
@@ -798,12 +853,9 @@
                                     <option value="Agreements, Contracts etc">Agreements, Contracts etc.</option>
                                 </optgroup>
                                 <option value="others">Others (Specify)</option>
-                            </select><br>
+                            </select>
                         </div>
-                    </div>
-                    
-                    <!-- Second Row -->
-                    <div class="form-row">
+                        
                         <div class="form-group">
                             <label for="assign">Assigned To:</label>
                             <select id="assign" name="assign" required>
@@ -820,12 +872,11 @@
                         <div class="form-group">
                             <label for="status">Status:</label>
                             <select id="status" name="status" required>
-                               <option value="URGENT">URGENT</option>
+                                <option value="URGENT">URGENT</option>
                                 <option value="DOCS">DOCS</option>
                                 <option value="RATING">RATING</option>
                                 <option value="DONE">DONE</option>
                                 <option value="REMIND">REMIND</option>
-                                <option value="DONE">DONE</option>
                                 <option value="BAL">BAL</option>
                                 <option value="WAIT">WAIT</option>
                                 <option value="CALL">CALL</option>
@@ -834,9 +885,13 @@
                                 <option value="NEXT YEAR">NEXT YEAR</option>
                                 <option value="MISSED">MISSED</option>
                                 <option value="OTP">OTP</option>
+                                <option value="TO BE">TO BE</option>
                             </select>
                         </div>
-                        
+                    </div>
+                    
+                    <!-- Third Row -->
+                    <div class="form-row">
                         <div class="form-group">
                             <label for="remark">Remarks:</label>
                             <input type="text" id="remark" name="remark">
@@ -846,15 +901,15 @@
                             <label for="username">Username:</label>
                             <input type="text" id="username" name="username">
                         </div>
-                    </div>
-                    
-                    <!-- Third Row -->
-                    <div class="form-row">
+                        
                         <div class="form-group">
                             <label for="password">Password:</label>
-                            <input type="password" id="password" name="password" class="password-field">
+                            <input type="text" id="password" name="password" class="password-field">
                         </div>
-                        
+                    </div>
+                    
+                    <!-- Fourth Row -->
+                    <div class="form-row">
                         <div class="form-group">
                             <label for="charges">Charges (₹):</label>
                             <input type="text" id="charges" name="charges">
@@ -894,7 +949,7 @@
                 <a href="#" class="filter-button" onclick="filterData('ITR REMINDER'); return false;">ITR</a>
                 <a href="#" class="filter-button" onclick="filterData('GST RETURN'); return false;">GST</a>
                 <a href="#" class="filter-button done" onclick="filterData('DONE'); return false;">DONE</a>
-                <a href="#" class="filter-button urgent" onclick="filterData('OTP'); return false;">MISSED</a>
+                <a href="#" class="filter-button urgent" onclick="filterData('MISSED'); return false;">MISSED</a>
                 <a href="#" class="filter-button" onclick="clearFilter(); return false;">ALL</a>
             </div>
             
@@ -1093,7 +1148,10 @@
             document.getElementById(sectionId).classList.remove('hidden');
             
             // Update page title
-            document.getElementById('pageTitle').textContent = document.querySelector(`[onclick="showSection('${sectionId}')"] span`).textContent;
+            const menuItem = document.querySelector(`[onclick="showSection('${sectionId}')"] span`);
+            if (menuItem) {
+                document.getElementById('pageTitle').textContent = menuItem.textContent;
+            }
             
             // Set active menu item
             document.querySelectorAll('.sidebar-menu a').forEach(item => {
@@ -1194,14 +1252,6 @@
                 btn.style.fontWeight = btn.textContent.includes(status) ? 'bold' : 'normal';
             });
         }
-        function filterData(work) {
-            currentFilter = work;
-            fetchData();
-            // Highlight the active filter button
-            document.querySelectorAll('.filter-button').forEach(btn => {
-                btn.style.fontWeight = btn.textContent.includes(work) ? 'bold' : 'normal';
-            });
-        }
 
         function clearFilter() {
             currentFilter = null;
@@ -1275,10 +1325,10 @@
                 .then(data => {
                     allClientsData = data; // Store all data for filtering
                     
-                   // Apply filter if set
-if (currentFilter) {
-    data = data.filter(row => row.status === currentFilter || row.work === currentFilter);
-}
+                    // Apply filter if set
+                    if (currentFilter) {
+                        data = data.filter(row => row.status === currentFilter || row.work === currentFilter);
+                    }
 
                     renderTable(data);
                     renderMobileCards(data);
@@ -1484,16 +1534,15 @@ if (currentFilter) {
 
             let message = `Hello ${row.name || 'there'},\n\n`;
             message += `Regarding your ${row.work || 'service'} with us:\n`;
-            message += `- Status Pending at: ${row.status || 'In Progress'}\n`;
+            message += `- Status: ${row.status || 'In Progress'}\n`;
             message += `- Charges: ${row.charges || ''}\n\n`;
             
             if (row.status === 'DOCS') {
                 message += `Please share the required documents at your earliest convenience.\n\n`;
             }
             if (row.status === 'RATING') {
-                message += `Your work has been complted successfully and charges are ${row.charges}.\n\nPlease Give us rating.\n\nWhich will be most helpful.\n\n https://www.justdial.com/Rangareddy/Sahithi-Tax-Consultancy-Near-Gram-Panchayat-Hayath-Nagar/040PXX40-XX40-240128082904-G1Z7_BZDET/writereview?city=Rangareddy\n\n`;
+                message += `Your work has been completed successfully and charges are ${row.charges}.\n\nPlease give us a rating.\n\nWhich will be most helpful.\n\nhttps://www.justdial.com/Rangareddy/Sahithi-Tax-Consultancy-Near-Gram-Panchayat-Hayath-Nagar/040PXX40-XX40-240128082904-G1Z7_BZDET/writereview?city=Rangareddy\n\n`;
             }
-            
             
             message += `Thank you,\nCoreTax Team`;
 
@@ -1542,62 +1591,107 @@ if (currentFilter) {
             // In a real app, this would fetch data from your backend
             // For demo purposes, we'll use the allClientsData if available or mock data
             
-            const data = allClientsData.length > 0 ? allClientsData : [
-                            ];
+            const data = allClientsData.length > 0 ? allClientsData : [];
             
             // Update summary cards
-             document.getElementById('urgentCount').textContent = data.filter(item => item.status === 'URGENT').length;
+            document.getElementById('Count').textContent = data.length;
+            document.getElementById('urgentCount').textContent = data.filter(item => item.status === 'URGENT').length;
             document.getElementById('pendingCount').textContent = data.filter(item => item.status === 'PENDING').length;
             document.getElementById('docsCount').textContent = data.filter(item => item.status === 'DOCS').length;
             document.getElementById('newCount').textContent = data.filter(item => item.status === 'NEW').length;
             document.getElementById('doneCount').textContent = data.filter(item => item.status === 'DONE').length;
-	    document.getElementById('balCount').textContent = data.filter(item => item.status === 'BAL').length;
-	    document.getElementById('Count').textContent = data.length;
-	    document.getElementById('otpCount').textContent = data.filter(item => item.status === 'OTP').length;
-	    document.getElementById('remindCount').textContent = data.filter(item => item.status === 'REMIND').length;
-	    document.getElementById('callCount').textContent = data.filter(item => item.status === 'CALL').length;
-	    document.getElementById('ratingCount').textContent = data.filter(item => item.status === 'RATING').length;
-	    document.getElementById('tobeCount').textContent = data.filter(item => item.status === 'TO BE').length;
+            document.getElementById('otpCount').textContent = data.filter(item => item.status === 'OTP').length;
+            document.getElementById('remindCount').textContent = data.filter(item => item.status === 'REMIND').length;
+            document.getElementById('callCount').textContent = data.filter(item => item.status === 'CALL').length;
+            document.getElementById('balCount').textContent = data.filter(item => item.status === 'BAL').length;
+            document.getElementById('ratingCount').textContent = data.filter(item => item.status === 'RATING').length;
+            document.getElementById('tobeCount').textContent = data.filter(item => item.status === 'TO BE').length;
 
-
-
-            // Load recent activities (last 5 records)
-            const recentActivities = data.slice(0, 5);
-            renderRecentActivities(recentActivities);
+            // Load recent clients (last 5 records)
+            const recentClients = data.slice(0, 5);
+            renderRecentClients(recentClients);
         }
 
-        function renderRecentActivities(data) {
-            const tableBody = document.querySelector("#recentActivitiesTable");
+        function renderRecentClients(data) {
+            const tableBody = document.querySelector("#recentClientsTable");
             tableBody.innerHTML = "";
+
+            const mobileContainer = document.querySelector("#recentClientsMobile");
+            mobileContainer.innerHTML = "";
 
             if (data.length === 0) {
                 const row = tableBody.insertRow();
                 const cell = row.insertCell(0);
-                cell.colSpan = 6;
+                cell.colSpan = 7;
                 cell.className = 'text-center';
-                cell.textContent = 'No recent activities found';
+                cell.textContent = 'No recent clients found';
+                
+                const message = document.createElement('div');
+                message.className = 'text-center';
+                message.textContent = 'No recent clients found';
+                mobileContainer.appendChild(message);
                 return;
             }
 
+            // Render desktop table
             data.forEach((row) => {
                 const newRow = tableBody.insertRow();
-                newRow.insertCell(0).innerText = row.name || '-';
-                newRow.insertCell(1).innerText = row.work || '-';
+                newRow.insertCell(0).innerText = row.id || '-';
+                newRow.insertCell(1).innerText = row.name || '-';
+                newRow.insertCell(2).innerText = row.mobile || '-';
+                newRow.insertCell(3).innerText = row.work || '-';
                 
-                const statusCell = newRow.insertCell(2);
+                const statusCell = newRow.insertCell(4);
                 statusCell.innerText = row.status || '-';
                 statusCell.className = `status-${row.status}`;
                 
-                newRow.insertCell(3).innerText = row.assign || '-';
-                newRow.insertCell(4).innerText = row.dueDate || '-';
+                newRow.insertCell(5).innerText = row.dueDate || '-';
                 
-                const actionCell = newRow.insertCell(5);
+                const actionCell = newRow.insertCell(6);
                 actionCell.innerHTML = `
                     <div class="action-buttons">
                         <button class="edit" onclick="editRow(${JSON.stringify(row).replace(/"/g, '&quot;')})">Edit</button>
                         <button class="whatsapp" onclick="sendWhatsAppMessage(${JSON.stringify(row).replace(/"/g, '&quot;')})">WhatsApp</button>
                     </div>
                 `;
+            });
+
+            // Render mobile cards
+            data.forEach((row) => {
+                const card = document.createElement('div');
+                card.className = 'mobile-card';
+                card.innerHTML = `
+                    <div class="status-indicator status-${row.status}"></div>
+                    <div class="card-row">
+                        <span class="card-label">ID:</span>
+                        <span class="card-value">${row.id || '-'}</span>
+                    </div>
+                    <div class="card-row">
+                        <span class="card-label">Name:</span>
+                        <span class="card-value">${row.name || '-'}</span>
+                    </div>
+                    <div class="card-row">
+                        <span class="card-label">Mobile:</span>
+                        <span class="card-value">${row.mobile || '-'}</span>
+                    </div>
+                    <div class="card-row">
+                        <span class="card-label">Service:</span>
+                        <span class="card-value">${row.work || '-'}</span>
+                    </div>
+                    <div class="card-row">
+                        <span class="card-label">Status:</span>
+                        <span class="card-value status-${row.status}">${row.status || '-'}</span>
+                    </div>
+                    <div class="card-row">
+                        <span class="card-label">Due Date:</span>
+                        <span class="card-value">${row.dueDate || '-'}</span>
+                    </div>
+                    <div class="action-buttons">
+                        <button class="edit" onclick="editRow(${JSON.stringify(row).replace(/"/g, '&quot;')})">Edit</button>
+                        <button class="whatsapp" onclick="sendWhatsAppMessage(${JSON.stringify(row).replace(/"/g, '&quot;')})">WhatsApp</button>
+                    </div>
+                `;
+                mobileContainer.appendChild(card);
             });
         }
 
@@ -2068,7 +2162,6 @@ if (currentFilter) {
         window.onload = function() {
             loadDashboardData();
         };
-showSection('clientList')
     </script>
 </body>
 </html>
