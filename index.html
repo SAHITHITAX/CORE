@@ -1554,8 +1554,7 @@
 
             let message = `Hello ${row.name || 'there'},\n\n`;
             message += `Regarding your ${row.work || 'service'} with us:\n`;
-            message += `- Status: ${row.status || 'In Progress'}\n`;
-            message += `- Charges: ${row.charges || ''}\n\n`;
+
             
             if (row.status === 'DOCS') {
                 message += `Please share the required documents at your earliest convenience.\n\n`;
