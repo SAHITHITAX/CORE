@@ -1590,7 +1590,11 @@
                           `Status: ${row.status || 'N/A'}\n` +
                           `Due Date: ${row.dueDate || 'N/A'}\n` +
                           `Remarks: ${row.remark || 'None'}\n\n` +
-                          `Please update on progress.`;
+                          `Remarks: ${row.username || 'None'}\n\n` +
+                          `Remarks: ${row.password || 'None'}\n\n` +
+
+
+                          `Entha varaku vachindi.`;
 
             const encodedMessage = encodeURIComponent(message);
             const whatsappUrl = `https://wa.me/${assigneeMobile}?text=${encodedMessage}`;
