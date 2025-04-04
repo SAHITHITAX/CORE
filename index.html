@@ -20,6 +20,63 @@
             min-height: 100vh;
         }
 
+        /* Login Form Styles */
+        .login-container {
+            width: 100%;
+            max-width: 400px;
+            margin: auto;
+            padding: 30px;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .login-container h1 {
+            color: #3498db;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .login-form .form-group {
+            margin-bottom: 15px;
+        }
+
+        .login-form label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 600;
+        }
+
+        .login-form input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 16px;
+        }
+
+        .login-form button {
+            width: 100%;
+            padding: 12px;
+            background-color: #3498db;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            font-size: 16px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+
+        .login-form button:hover {
+            background-color: #2980b9;
+        }
+
+        .error-message {
+            color: #e74c3c;
+            text-align: center;
+            margin-top: 15px;
+        }
+
         /* Sidebar Styles */
         .sidebar {
             width: 250px;
@@ -31,6 +88,7 @@
             overflow-y: auto;
             transition: all 0.3s;
             z-index: 1000;
+            display: none;
         }
 
         .sidebar-header {
@@ -107,6 +165,7 @@
             margin-left: 250px;
             padding: 20px;
             transition: all 0.3s;
+            display: none;
         }
 
         .header {
@@ -509,6 +568,11 @@
             .main-content {
                 padding: 10px;
             }
+            
+            .login-container {
+                padding: 20px;
+                margin: 20px;
+            }
         }
 
         @media (min-width: 769px) {
@@ -576,17 +640,34 @@
     </style>
 </head>
 <body>
+    <!-- Login Form -->
+    <div class="login-container" id="loginForm">
+        <h1>CoreTax Login</h1>
+        <form class="login-form" onsubmit="login(event)">
+            <div class="form-group">
+                <label for="loginUsername">Username</label>
+                <input type="text" id="loginUsername" required>
+            </div>
+            <div class="form-group">
+                <label for="loginPassword">Password</label>
+                <input type="password" id="loginPassword" required>
+            </div>
+            <button type="submit">Login</button>
+            <div id="loginError" class="error-message hidden"></div>
+        </form>
+    </div>
+
     <!-- Sidebar Navigation -->
-    <div class="sidebar">
+    <div class="sidebar" id="sidebar">
         <div class="sidebar-header">
             <h2>CoreTax</h2>
             <p>Professional Tax Services</p>
         </div>
         <ul class="sidebar-menu">
             <li><a href="#" class="active" onclick="showSection('dashboard')"><i class="fas fa-tachometer-alt"></i> <span>Dashboard</span></a></li>
-            <li><a href="#" onclick="showSection('addClient')"><i class="fas fa-user-plus"></i> <span>Add Client</span></a></li>
+            <li id="addClientMenu"><a href="#" onclick="showSection('addClient')"><i class="fas fa-user-plus"></i> <span>Add Client</span></a></li>
             <li><a href="#" onclick="showSection('clientList')"><i class="fas fa-users"></i> <span>Client List</span></a></li>
-            <li class="has-submenu">
+            <li class="has-submenu" id="reportsMenu">
                 <a href="#"><i class="fas fa-file-alt"></i> <span>Reports</span></a>
                 <ul class="submenu">
                     <li><a href="#" onclick="showSection('statusReport')">Status Report</a></li>
@@ -599,20 +680,21 @@
             <li><a href="#" onclick="showSection('epfSection')"><i class="fas fa-piggy-bank"></i> <span>EPF Section</span></a></li>
             <li><a href="#" onclick="showSection('panSection')"><i class="fas fa-id-card"></i> <span>PAN Services</span></a></li>
             <li><a href="#" onclick="showSection('companySection')"><i class="fas fa-building"></i> <span>Company Registration</span></a></li>
-            <li><a href="#" onclick="showSection('settings')"><i class="fas fa-cog"></i> <span>Settings</span></a></li>
+            <li id="settingsMenu"><a href="#" onclick="showSection('settings')"><i class="fas fa-cog"></i> <span>Settings</span></a></li>
         </ul>
     </div>
 
     <!-- Main Content Area -->
-    <div class="main-content">
+    <div class="main-content" id="mainContent">
         <div class="header">
             <button class="toggle-sidebar" onclick="toggleSidebar()">
                 <i class="fas fa-bars"></i>
             </button>
             <h1 id="pageTitle">Dashboard</h1>
             <div class="user-profile">
-                <img src="https://via.placeholder.com/40" alt="User">
-                <span>Admin</span>
+                <img src="https://via.placeholder.com/40" alt="User" id="userAvatar">
+                <span id="userNameDisplay">Admin</span>
+                <button onclick="logout()" style="margin-left: 10px; padding: 5px 10px; font-size: 12px;">Logout</button>
             </div>
         </div>
 
@@ -1130,12 +1212,102 @@
         let editId = null;
         let currentFilter = null;
         let allClientsData = [];
+        let currentUser = null;
         
         const assigneeMobileNumbers = {
             "NIKHIL": "+917989395723",
             "RAJU": "+919248410298",
             "ABHIGNA": "+919182338327"
         };
+
+        // User database (in a real app, this would be on the server)
+        const users = [
+            { 
+                username: "admin", 
+                password: "Admin@225", 
+                name: "Admin", 
+                role: "admin", 
+                assignee: null,
+                avatar: "https://via.placeholder.com/40/3498db/ffffff?text=A"
+            },
+            { 
+                username: "nikhil", 
+                password: "nikhil123", 
+                name: "Nikhil", 
+                role: "user", 
+                assignee: "NIKHIL",
+                avatar: "https://via.placeholder.com/40/2ecc71/ffffff?text=N"
+            },
+            { 
+                username: "abhighna", 
+                password: "abhighna123", 
+                name: "Abhighna", 
+                role: "user", 
+                assignee: "ABHIGNA",
+                avatar: "https://via.placeholder.com/40/e74c3c/ffffff?text=A"
+            },
+            { 
+                username: "raju", 
+                password: "raju123", 
+                name: "Raju", 
+                role: "user", 
+                assignee: "RAJU",
+                avatar: "https://via.placeholder.com/40/9b59b6/ffffff?text=R"
+            }
+        ];
+
+        // Authentication functions
+        function login(event) {
+            event.preventDefault();
+            const username = document.getElementById("loginUsername").value;
+            const password = document.getElementById("loginPassword").value;
+            
+            const user = users.find(u => u.username === username && u.password === password);
+            
+            if (user) {
+                currentUser = user;
+                document.getElementById("loginError").classList.add("hidden");
+                document.getElementById("loginForm").style.display = "none";
+                document.getElementById("sidebar").style.display = "block";
+                document.getElementById("mainContent").style.display = "block";
+                
+                // Update user profile in header
+                document.getElementById("userNameDisplay").textContent = user.name;
+                document.getElementById("userAvatar").src = user.avatar;
+                
+                // Set up UI based on user role
+                setupUserUI();
+                
+                // Load initial data
+                loadDashboardData();
+            } else {
+                document.getElementById("loginError").textContent = "Invalid username or password";
+                document.getElementById("loginError").classList.remove("hidden");
+            }
+        }
+
+        function logout() {
+            currentUser = null;
+            document.getElementById("loginForm").style.display = "block";
+            document.getElementById("sidebar").style.display = "none";
+            document.getElementById("mainContent").style.display = "none";
+            document.getElementById("loginUsername").value = "";
+            document.getElementById("loginPassword").value = "";
+            document.getElementById("loginError").classList.add("hidden");
+        }
+
+        function setupUserUI() {
+            // Hide admin-only features for regular users
+            if (currentUser.role !== "admin") {
+                document.getElementById("addClientMenu").style.display = "none";
+                document.getElementById("reportsMenu").style.display = "none";
+                document.getElementById("settingsMenu").style.display = "none";
+            } else {
+                document.getElementById("addClientMenu").style.display = "block";
+                document.getElementById("reportsMenu").style.display = "block";
+                document.getElementById("settingsMenu").style.display = "block";
+            }
+        }
 
         // Navigation functions
         function showSection(sectionId) {
@@ -1238,9 +1410,6 @@
             // Set today's date as default for due date
             const today = new Date().toISOString().split('T')[0];
             document.getElementById("dueDate").value = today;
-            
-            // Show dashboard by default
-            showSection('dashboard');
         });
 
         // Data functions
@@ -1329,6 +1498,11 @@
                     if (currentFilter) {
                         data = data.filter(row => row.status === currentFilter || row.work === currentFilter);
                     }
+                    
+                    // Filter data based on user role
+                    if (currentUser.role === "user" && currentUser.assignee) {
+                        data = data.filter(row => row.assign === currentUser.assignee);
+                    }
 
                     renderTable(data);
                     renderMobileCards(data);
@@ -1352,18 +1526,24 @@
         function updateCounts(data) {
             if (!data || !data.length) return;
             
-            document.getElementById('totalCount').textContent = data.length;
-            document.getElementById('urgentCount').textContent = data.filter(item => item.status === 'URGENT').length;
-            document.getElementById('pendingCount').textContent = data.filter(item => item.status === 'PENDING').length;
-            document.getElementById('docsCount').textContent = data.filter(item => item.status === 'DOCS').length;
-            document.getElementById('newCount').textContent = data.filter(item => item.status === 'NEW').length;
-            document.getElementById('doneCount').textContent = data.filter(item => item.status === 'DONE').length;
-            document.getElementById('otpCount').textContent = data.filter(item => item.status === 'OTP').length;
-            document.getElementById('remindCount').textContent = data.filter(item => item.status === 'REMIND').length;
-            document.getElementById('callCount').textContent = data.filter(item => item.status === 'CALL').length;
-            document.getElementById('balCount').textContent = data.filter(item => item.status === 'BAL').length;
-            document.getElementById('ratingCount').textContent = data.filter(item => item.status === 'RATING').length;
-            document.getElementById('tobeCount').textContent = data.filter(item => item.status === 'TO BE').length;
+            // Filter data based on user role for counts
+            let filteredData = data;
+            if (currentUser.role === "user" && currentUser.assignee) {
+                filteredData = data.filter(row => row.assign === currentUser.assignee);
+            }
+            
+            document.getElementById('totalCount').textContent = filteredData.length;
+            document.getElementById('urgentCount').textContent = filteredData.filter(item => item.status === 'URGENT').length;
+            document.getElementById('pendingCount').textContent = filteredData.filter(item => item.status === 'PENDING').length;
+            document.getElementById('docsCount').textContent = filteredData.filter(item => item.status === 'DOCS').length;
+            document.getElementById('newCount').textContent = filteredData.filter(item => item.status === 'NEW').length;
+            document.getElementById('doneCount').textContent = filteredData.filter(item => item.status === 'DONE').length;
+            document.getElementById('otpCount').textContent = filteredData.filter(item => item.status === 'OTP').length;
+            document.getElementById('remindCount').textContent = filteredData.filter(item => item.status === 'REMIND').length;
+            document.getElementById('callCount').textContent = filteredData.filter(item => item.status === 'CALL').length;
+            document.getElementById('balCount').textContent = filteredData.filter(item => item.status === 'BAL').length;
+            document.getElementById('ratingCount').textContent = filteredData.filter(item => item.status === 'RATING').length;
+            document.getElementById('tobeCount').textContent = filteredData.filter(item => item.status === 'TO BE').length;
         }
 
         function renderTable(data) {
@@ -1406,10 +1586,10 @@
                 actionCell.innerHTML = `
                     <div class="action-buttons">
                         <button class="edit" onclick="editRow(${JSON.stringify(row).replace(/"/g, '&quot;')})">Edit</button>
-                        <button class="delete" onclick="deleteRow('${row.id}')">Delete</button>
+                        ${currentUser.role === 'admin' ? `<button class="delete" onclick="deleteRow('${row.id}')">Delete</button>` : ''}
                         ${row.folderId ? `<button class="open-folder" onclick="openFolder('${row.folderId}')">Folder</button>` : ''}
                         <button class="whatsapp" onclick="sendWhatsAppMessage(${JSON.stringify(row).replace(/"/g, '&quot;')})">WhatsApp</button>
-                        ${row.assign ? `<button class="whatsapp-assignee" onclick="sendAssigneeWhatsAppMessage(${JSON.stringify(row).replace(/"/g, '&quot;')})">Notify ${row.assign}</button>` : ''}
+                        ${row.assign && currentUser.role === 'admin' ? `<button class="whatsapp-assignee" onclick="sendAssigneeWhatsAppMessage(${JSON.stringify(row).replace(/"/g, '&quot;')})">Notify ${row.assign}</button>` : ''}
                     </div>
                 `;
             });
@@ -1482,10 +1662,10 @@
                     </div>
                     <div class="action-buttons">
                         <button class="edit" onclick="editRow(${JSON.stringify(row).replace(/"/g, '&quot;')})">Edit</button>
-                        <button class="delete" onclick="deleteRow('${row.id}')">Delete</button>
+                        ${currentUser.role === 'admin' ? `<button class="delete" onclick="deleteRow('${row.id}')">Delete</button>` : ''}
                         ${row.folderId ? `<button class="open-folder" onclick="openFolder('${row.folderId}')">Folder</button>` : ''}
                         <button class="whatsapp" onclick="sendWhatsAppMessage(${JSON.stringify(row).replace(/"/g, '&quot;')})">WhatsApp</button>
-                        ${row.assign ? `<button class="whatsapp-assignee" onclick="sendAssigneeWhatsAppMessage(${JSON.stringify(row).replace(/"/g, '&quot;')})">Notify ${row.assign}</button>` : ''}
+                        ${row.assign && currentUser.role === 'admin' ? `<button class="whatsapp-assignee" onclick="sendAssigneeWhatsAppMessage(${JSON.stringify(row).replace(/"/g, '&quot;')})">Notify ${row.assign}</button>` : ''}
                     </div>
                 `;
                 mobileContainer.appendChild(card);
@@ -1592,7 +1772,7 @@
                           `Username: ${row.username || 'None'}\n\n` +
                           `Password: ${row.password || 'None'}\n\n` +
 
-
+                             `Please find relavent docs at https://sahithitax.github.io/CORE/\n\n` + 
                           `Entha varaku vachindi.`;
 
             const encodedMessage = encodeURIComponent(message);
@@ -1616,7 +1796,16 @@
             
             if (allClientsData.length > 0) {
                 updateCounts(allClientsData);
-                renderRecentClients(allClientsData.slice(0, 5));
+                
+                // Filter recent clients based on user role
+                let recentClients = allClientsData.slice(0, 5);
+                if (currentUser.role === "user" && currentUser.assignee) {
+                    recentClients = allClientsData
+                        .filter(row => row.assign === currentUser.assignee)
+                        .slice(0, 5);
+                }
+                
+                renderRecentClients(recentClients);
             } else {
                 fetchData();
             }
@@ -2167,11 +2356,6 @@
             alert("Data restored successfully!");
             // In a real app, this would restore data from a backup
         }
-
-        // Initialize dashboard data on page load
-        window.onload = function() {
-            loadDashboardData();
-        };
     </script>
 </body>
 </html>
