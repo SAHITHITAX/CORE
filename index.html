@@ -1595,7 +1595,8 @@
                 passwordCell.innerText = row.password || '-';
                 passwordCell.className = 'password-field';
                 
-                newRow.insertCell(10).innerText = row.charges || '-';
+                newRow.insertCell(10).innerText = currentUser.role === 'admin' ? (row.charges || '-') : (row.charges ? '-' : '-');
+;
                 newRow.insertCell(11).innerText = row.dueDate || '-';
                 
                 const actionCell = newRow.insertCell(12);
@@ -1670,7 +1671,8 @@
                     </div>
                     <div class="card-row">
                         <span class="card-label">Charges:</span>
-                        <span class="card-value">${row.charges || '-'}</span>
+                        <span class="card-value">${currentUser.role === 'admin' ? `${row.charges || '-'}` : ''}
+</span>
                     </div>
                     <div class="card-row">
                         <span class="card-label">Due Date:</span>
