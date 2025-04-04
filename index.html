@@ -734,6 +734,12 @@
                 </div>
                 <div class="summary-card pending">
                     <i class="fas fa-clock"></i>
+                    <a href="#" class="filter-button pending" onclick="filterData('WAIT'); return false;">WAIT</a>
+                    <div class="count" id="waitCount">0</div>
+                    <p>Awaiting action</p>
+                </div>
+                <div class="summary-card pending">
+                    <i class="fas fa-clock"></i>
                     <a href="#" class="filter-button pending" onclick="filterData('REMIND'); return false;">REMIND</a>
                     <div class="count" id="remindCount">0</div>
                     <p>Reminder needed</p>
@@ -1027,6 +1033,7 @@
                 <a href="#" class="filter-button urgent" onclick="filterData('URGENT'); return false;">URGENT</a>
                 <a href="#" class="filter-button urgent" onclick="filterData('OTP'); return false;">OTP</a>
                 <a href="#" class="filter-button pending" onclick="filterData('PENDING'); return false;">PENDING</a>
+                <a href="#" class="filter-button pending" onclick="filterData('WAIT'); return false;">WAIT</a>
                 <a href="#" class="filter-button" onclick="filterData('REMIND'); return false;">REMIND</a>
                 <a href="#" class="filter-button docs" onclick="filterData('DOCS'); return false;">DOCS</a>
                 <a href="#" class="filter-button new" onclick="filterData('NEW'); return false;">NEW</a>
@@ -1543,6 +1550,7 @@
             document.getElementById('urgentCount').textContent = filteredData.filter(item => item.status === 'URGENT').length;
             document.getElementById('subCount').textContent = filteredData.filter(item => item.status === 'SUBMITTED').length;
             document.getElementById('pendingCount').textContent = filteredData.filter(item => item.status === 'PENDING').length;
+            document.getElementById('waitCount').textContent = filteredData.filter(item => item.status === 'WAITING').length;
             document.getElementById('docsCount').textContent = filteredData.filter(item => item.status === 'DOCS').length;
             document.getElementById('newCount').textContent = filteredData.filter(item => item.status === 'NEW').length;
             document.getElementById('doneCount').textContent = filteredData.filter(item => item.status === 'DONE').length;
