@@ -1685,6 +1685,7 @@
             document.getElementById("password").value = row.password || '';
             document.getElementById("charges").value = row.charges || '';
             document.getElementById("dueDate").value = row.dueDate || '';
+
             
             editMode = true;
             editId = row.id;
@@ -1771,9 +1772,10 @@
                           `Remarks: ${row.remark || 'None'}\n\n` +
                           `Username: ${row.username || 'None'}\n\n` +
                           `Password: ${row.password || 'None'}\n\n` +
+                          `Files: https://drive.google.com/drive/folders/${row.folderId || 'None'}\n\n` +
 
-                             `Please find relavent docs at https://sahithitax.github.io/CORE/\n\n` + 
-                          `Entha varaku vachindi.`;
+                             `Please *update* the task status and remarks at https://sahithitax.github.io/CORE/\n\n`
+                          ;
 
             const encodedMessage = encodeURIComponent(message);
             const whatsappUrl = `https://wa.me/${assigneeMobile}?text=${encodedMessage}`;
