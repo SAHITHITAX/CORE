@@ -714,6 +714,12 @@
                     <div class="count" id="urgentCount">0</div>
                     <p>Requires immediate attention</p>
                 </div>
+                 <div class="summary-card urgent">
+                    <i class="fas fa-exclamation-circle"></i>
+                    <a href="#" class="filter-button urgent" onclick="filterData('SUBMITTED'); return false;">SUBMITTED</a>
+                    <div class="count" id="subCount">0</div>
+                    <p>Requires immediate attention</p>
+                </div>
                 <div class="summary-card urgent">
                     <i class="fas fa-exclamation-circle"></i>
                     <a href="#" class="filter-button urgent" onclick="filterData('OTP'); return false;">OTP</a>
@@ -955,6 +961,7 @@
                             <label for="status">Status:</label>
                             <select id="status" name="status" required>
                                 <option value="URGENT">URGENT</option>
+                                <option value="SUBMITTED">SUBMITTED</option>
                                 <option value="DOCS">DOCS</option>
                                 <option value="RATING">RATING</option>
                                 <option value="DONE">DONE</option>
@@ -1534,6 +1541,7 @@
             
             document.getElementById('totalCount').textContent = filteredData.length;
             document.getElementById('urgentCount').textContent = filteredData.filter(item => item.status === 'URGENT').length;
+            document.getElementById('subCount').textContent = filteredData.filter(item => item.status === 'SUBMITTED').length;
             document.getElementById('pendingCount').textContent = filteredData.filter(item => item.status === 'PENDING').length;
             document.getElementById('docsCount').textContent = filteredData.filter(item => item.status === 'DOCS').length;
             document.getElementById('newCount').textContent = filteredData.filter(item => item.status === 'NEW').length;
