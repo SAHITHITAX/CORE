@@ -1733,8 +1733,10 @@
             document.getElementById("remark").value = row.remark || '';
             document.getElementById("username").value = row.username || '';
             document.getElementById("password").value = row.password || '';
-            document.getElementById("charges").value = currentUser.role === 'admin' ? (row.charges || '') : '-';
-            document.getElementById("dueDate").value = row.dueDate || '';
+            const chargesInput = document.getElementById("charges");
+            chargesInput.value = row.charges || '';
+            chargesInput.style.display = currentUser.role === 'admin' ? '' : 'none';
+	     document.getElementById("dueDate").value = row.dueDate || '';
 
             
             editMode = true;
