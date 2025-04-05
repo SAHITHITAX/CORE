@@ -727,6 +727,18 @@
                     <div class="count" id="otpCount">0</div>
                     <p>OTP Required</p>
                 </div>
+                <div class="summary-card docs">
+                    <i class="fas fa-file-alt"></i>
+                    <a href="#" class="filter-button docs" onclick="filterData('DOCS'); return false;">DOCS</a>
+                    <div class="count" id="docsCount">0</div>
+                    <p>Waiting for documents</p>
+                </div>
+                <div class="summary-card docs">
+                    <i class="fas fa-file-alt"></i>
+                    <a href="#" class="filter-button docs" onclick="filterData('MEET'); return false;">MEET</a>
+                    <div class="count" id="meetCount">0</div>
+                    <p>Waiting for documents</p>
+                </div>
                 <div class="summary-card pending">
                     <i class="fas fa-clock"></i>
                     <a href="#" class="filter-button pending" onclick="filterData('PENDING'); return false;">PENDING</a>
@@ -769,12 +781,7 @@
                     <div class="count" id="tobeCount">0</div>
                     <p>To be processed</p>
                 </div>
-                <div class="summary-card docs">
-                    <i class="fas fa-file-alt"></i>
-                    <a href="#" class="filter-button docs" onclick="filterData('DOCS'); return false;">DOCS</a>
-                    <div class="count" id="docsCount">0</div>
-                    <p>Waiting for documents</p>
-                </div>
+
                 <div class="summary-card new">
                     <i class="fas fa-plus-circle"></i>
                     <a href="#" class="filter-button new" onclick="filterData('NEW'); return false;">NEW</a>
@@ -884,6 +891,8 @@
                                     <option value="Apply for PAN Reprint">Apply for PAN Reprint</option>
                                     <option value="Apply for PAN - PAN allotted already">Apply for PAN - PAN allotted already (PAN Number lost)</option>
                                     <option value="Duplicate PAN Cancellation">Duplicate PAN Cancellation</option>
+				    <option value="Apply for TAN">Apply for TAN</option>
+
                                 </optgroup>
                                 <optgroup label="Aadhar Services">
                                     <option value="Aadhar PAN Link">Aadhar PAN Link</option>
@@ -970,6 +979,8 @@
                                 <option value="URGENT">URGENT</option>
                                 <option value="SUBMITTED">SUBMITTED</option>
                                 <option value="DOCS">DOCS</option>
+                                <option value="MEET">MEET</option>
+
                                 <option value="RATING">RATING</option>
                                 <option value="DONE">DONE</option>
                                 <option value="REMIND">REMIND</option>
@@ -1553,6 +1564,8 @@
             document.getElementById('pendingCount').textContent = filteredData.filter(item => item.status === 'PENDING').length;
             document.getElementById('waitCount').textContent = filteredData.filter(item => item.status === 'WAIT').length;
             document.getElementById('docsCount').textContent = filteredData.filter(item => item.status === 'DOCS').length;
+            document.getElementById('meetCount').textContent = filteredData.filter(item => item.status === 'MEET').length;
+
             document.getElementById('newCount').textContent = filteredData.filter(item => item.status === 'NEW').length;
             document.getElementById('doneCount').textContent = filteredData.filter(item => item.status === 'DONE').length;
             document.getElementById('otpCount').textContent = filteredData.filter(item => item.status === 'OTP').length;
