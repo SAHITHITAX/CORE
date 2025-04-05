@@ -1733,7 +1733,7 @@
             document.getElementById("remark").value = row.remark || '';
             document.getElementById("username").value = row.username || '';
             document.getElementById("password").value = row.password || '';
-            document.getElementById("charges").value = row.charges || '';
+            document.getElementById("charges").value = currentUser.role === 'admin' ? (row.charges || '') : 'Restricted';
             document.getElementById("dueDate").value = row.dueDate || '';
 
             
