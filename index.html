@@ -735,6 +735,12 @@
                 </div>
                 <div class="summary-card docs">
                     <i class="fas fa-file-alt"></i>
+                    <a href="#" class="filter-button docs" onclick="filterData('KNOW'); return false;">KNOWCS</a>
+                    <div class="count" id="knowCount">0</div>
+                    <p>Waiting for documents</p>
+                </div>
+                <div class="summary-card docs">
+                    <i class="fas fa-file-alt"></i>
                     <a href="#" class="filter-button docs" onclick="filterData('MEET'); return false;">MEET</a>
                     <div class="count" id="meetCount">0</div>
                     <p>Waiting for documents</p>
@@ -979,6 +985,7 @@
                                 <option value="URGENT">URGENT</option>
 				<option value="OTP">OTP</option>
                                 <option value="SUBMITTED">SUBMITTED</option>
+                                <option value="KNOW">KNOW</option>
                                 <option value="DOCS">DOCS</option>
                                 <option value="MEET">MEET</option>
 
@@ -1572,6 +1579,7 @@
             document.getElementById('urgentCount').textContent = filteredData.filter(item => item.status === 'URGENT').length;
             document.getElementById('subCount').textContent = filteredData.filter(item => item.status === 'SUBMITTED').length;
             document.getElementById('pendingCount').textContent = filteredData.filter(item => item.status === 'PENDING').length;
+            document.getElementById('knowCount').textContent = filteredData.filter(item => item.status === 'KNOW').length;
             document.getElementById('waitCount').textContent = filteredData.filter(item => item.status === 'WAIT').length;
             document.getElementById('docsCount').textContent = filteredData.filter(item => item.status === 'DOCS').length;
             document.getElementById('meetCount').textContent = filteredData.filter(item => item.status === 'MEET').length;
