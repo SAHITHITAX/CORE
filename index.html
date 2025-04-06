@@ -800,6 +800,12 @@
                     <div class="count" id="doneCount">0</div>
                     <p>Work finished</p>
                 </div>
+                <div class="summary-card done">
+                    <i class="fas fa-check-circle"></i>
+                    <a href="#" class="filter-button done" onclick="filterData('RAJU'); return false;">RAJU</a>
+                    <div class="count" id="doneCount">0</div>
+                    <p>Work finished</p>
+                </div>
             </div>
 
             <div class="table-container">
@@ -1464,6 +1470,14 @@
                 btn.style.fontWeight = btn.textContent.includes(status) ? 'bold' : 'normal';
             });
         }
+        function filterData(assign) {
+            currentFilter = assign;
+            fetchData();
+            // Highlight the active filter button
+            document.querySelectorAll('.filter-button').forEach(btn => {
+                btn.style.fontWeight = btn.textContent.includes(assign) ? 'bold' : 'normal';
+            });
+        }
 
         function clearFilter() {
             currentFilter = null;
@@ -1538,9 +1552,13 @@
                     allClientsData = data; // Store all data for filtering
                     
                     // Apply filter if set
-                    if (currentFilter) {
-                        data = data.filter(row => row.status === currentFilter || row.work === currentFilter);
-                    }
+if (currentFilter) {
+    data = data.filter(row => 
+        row.status === currentFilter || 
+        row.work === currentFilter ||
+        row.assign === currentFilter
+    );
+}
                     
                     // Filter data based on user role
                     if (currentUser.role === "user" && currentUser.assignee) {
