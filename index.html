@@ -473,6 +473,33 @@
         .status-RATING { color: #8e44ad; font-weight: bold; }
         .status-TO BE { color: #2c3e50; font-weight: bold; }
 
+        /* Dashboard Filter Controls */
+        .dashboard-controls {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-bottom: 20px;
+            align-items: center;
+        }
+
+        .dashboard-filter {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .dashboard-filter label {
+            font-weight: 600;
+            color: #2c3e50;
+        }
+
+        .dashboard-filter select {
+            padding: 8px 12px;
+            border-radius: 4px;
+            border: 1px solid #ddd;
+            min-width: 150px;
+        }
+
         /* Responsive adjustments */
         @media (max-width: 992px) {
             .summary-cards {
@@ -549,6 +576,19 @@
             
             .user-profile span {
                 display: none;
+            }
+
+            .dashboard-controls {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .dashboard-filter {
+                width: 100%;
+            }
+
+            .dashboard-filter select {
+                width: 100%;
             }
         }
 
@@ -702,10 +742,52 @@
         <!-- Dashboard Section -->
         <div id="dashboard" class="section">
             <h2>Summary Overview</h2>
+            
+            <!-- Dashboard Filter Controls -->
+            <div class="dashboard-controls">
+                <div class="dashboard-filter">
+                    <label for="assigneeFilter">Filter by Assignee:</label>
+                    <select id="assigneeFilter" onchange="filterByAssignee()">
+                        <option value="ALL">All Assignees</option>
+                        <option value="NIKHIL">NIKHIL</option>
+                        <option value="ABHIGNA">ABHIGNA</option>
+                        <option value="RAJU">RAJU</option>
+                        <option value="ALEKHYA">ALEKHYA</option>
+                        <option value="ABHI">ABHI</option>
+                        <option value="SUNNY">SUNNY</option>
+                        <option value="RENUKA">RENUKA</option>
+                    </select>
+                </div>
+                
+                <div class="dashboard-filter">
+                    <label for="statusFilter">Filter by Status:</label>
+                    <select id="statusFilter" onchange="filterByStatus()">
+                        <option value="ALL">All Statuses</option>
+                        <option value="URGENT">URGENT</option>
+                        <option value="SUBMITTED">SUBMITTED</option>
+                        <option value="OTP">OTP</option>
+                        <option value="DOCS">DOCS</option>
+                        <option value="KNOW">KNOW</option>
+                        <option value="MEET">MEET</option>
+                        <option value="PENDING">PENDING</option>
+                        <option value="WAIT">WAIT</option>
+                        <option value="REMIND">REMIND</option>
+                        <option value="CALL">CALL</option>
+                        <option value="BAL">BAL</option>
+                        <option value="RATING">RATING</option>
+                        <option value="TO BE">TO BE</option>
+                        <option value="NEW">NEW</option>
+                        <option value="DONE">DONE</option>
+                    </select>
+                </div>
+                
+                <button onclick="resetDashboardFilters()">Reset Filters</button>
+            </div>
+            
             <div class="summary-cards">
                 <div class="summary-card urgent">
                     <i class="fas fa-exclamation-circle"></i>
-                    <a href="#" class="filter-button urgent" onclick="filterData(''); return false;">ALL</a>
+                    <a href="#" class="filter-button urgent" onclick="filterData('ALL'); return false;">ALL</a>
                     <div class="count" id="totalCount">0</div>
                     <p>Total Clients</p>
                 </div>
@@ -715,11 +797,11 @@
                     <div class="count" id="urgentCount">0</div>
                     <p>Requires immediate attention</p>
                 </div>
-                 <div class="summary-card urgent">
+                <div class="summary-card urgent">
                     <i class="fas fa-exclamation-circle"></i>
                     <a href="#" class="filter-button urgent" onclick="filterData('SUBMITTED'); return false;">SUBMITTED</a>
                     <div class="count" id="subCount">0</div>
-                    <p>Requires immediate attention</p>
+                    <p>Submitted for processing</p>
                 </div>
                 <div class="summary-card urgent">
                     <i class="fas fa-exclamation-circle"></i>
@@ -737,13 +819,13 @@
                     <i class="fas fa-file-alt"></i>
                     <a href="#" class="filter-button docs" onclick="filterData('KNOW'); return false;">KNOWCS</a>
                     <div class="count" id="knowCount">0</div>
-                    <p>Waiting for documents</p>
+                    <p>Knowledge required</p>
                 </div>
                 <div class="summary-card docs">
                     <i class="fas fa-file-alt"></i>
                     <a href="#" class="filter-button docs" onclick="filterData('MEET'); return false;">MEET</a>
                     <div class="count" id="meetCount">0</div>
-                    <p>Waiting for documents</p>
+                    <p>Meeting required</p>
                 </div>
                 <div class="summary-card pending">
                     <i class="fas fa-clock"></i>
@@ -755,7 +837,7 @@
                     <i class="fas fa-clock"></i>
                     <a href="#" class="filter-button pending" onclick="filterData('WAIT'); return false;">WAIT</a>
                     <div class="count" id="waitCount">0</div>
-                    <p>Awaiting action</p>
+                    <p>Waiting for response</p>
                 </div>
                 <div class="summary-card pending">
                     <i class="fas fa-clock"></i>
@@ -787,7 +869,6 @@
                     <div class="count" id="tobeCount">0</div>
                     <p>To be processed</p>
                 </div>
-
                 <div class="summary-card new">
                     <i class="fas fa-plus-circle"></i>
                     <a href="#" class="filter-button new" onclick="filterData('NEW'); return false;">NEW</a>
@@ -803,8 +884,8 @@
                 <div class="summary-card done">
                     <i class="fas fa-check-circle"></i>
                     <a href="#" class="filter-button done" onclick="filterData('RAJU'); return false;">RAJU</a>
-                    <div class="count" id="doneCount">0</div>
-                    <p>Work finished</p>
+                    <div class="count" id="rajuCount">0</div>
+                    <p>Assigned to Raju</p>
                 </div>
             </div>
 
@@ -903,8 +984,7 @@
                                     <option value="Apply for PAN Reprint">Apply for PAN Reprint</option>
                                     <option value="Apply for PAN - PAN allotted already">Apply for PAN - PAN allotted already (PAN Number lost)</option>
                                     <option value="Duplicate PAN Cancellation">Duplicate PAN Cancellation</option>
-				    <option value="Apply for TAN">Apply for TAN</option>
-
+                                    <option value="Apply for TAN">Apply for TAN</option>
                                 </optgroup>
                                 <optgroup label="Aadhar Services">
                                     <option value="Aadhar PAN Link">Aadhar PAN Link</option>
@@ -989,12 +1069,11 @@
                             <label for="status">Status:</label>
                             <select id="status" name="status" required>
                                 <option value="URGENT">URGENT</option>
-				<option value="OTP">OTP</option>
+                                <option value="OTP">OTP</option>
                                 <option value="SUBMITTED">SUBMITTED</option>
                                 <option value="KNOW">KNOW</option>
                                 <option value="DOCS">DOCS</option>
                                 <option value="MEET">MEET</option>
-
                                 <option value="RATING">RATING</option>
                                 <option value="DONE">DONE</option>
                                 <option value="REMIND">REMIND</option>
@@ -1005,7 +1084,6 @@
                                 <option value="FEEDBACK">FEEDBACK</option>
                                 <option value="NEXT YEAR">NEXT YEAR</option>
                                 <option value="MISSED">MISSED</option>
-                                
                                 <option value="TO BE">TO BE</option>
                             </select>
                         </div>
@@ -1105,154 +1183,15 @@
             </div>
         </div>
 
-        <!-- Reports Sections -->
-        <div id="statusReport" class="section hidden">
-            <h2>Status Report</h2>
-            <div id="statusReportContent">
-                <!-- Status report content will be loaded here -->
-            </div>
-        </div>
-
-        <div id="financialReport" class="section hidden">
-            <h2>Financial Report</h2>
-            <div id="financialReportContent">
-                <!-- Financial report content will be loaded here -->
-            </div>
-        </div>
-
-        <div id="assigneeReport" class="section hidden">
-            <h2>Assignee Report</h2>
-            <div id="assigneeReportContent">
-                <!-- Assignee report content will be loaded here -->
-            </div>
-        </div>
-
-        <!-- GST Section -->
-        <div id="gstSection" class="section hidden">
-            <h2>GST Services</h2>
-            <div class="button-container">
-                <a href="#" class="filter-button" onclick="filterGSTData('ALL'); return false;">All GST</a>
-                <a href="#" class="filter-button" onclick="filterGSTData('REGISTRATION'); return false;">Registrations</a>
-                <a href="#" class="filter-button" onclick="filterGSTData('RETURN'); return false;">Returns</a>
-                <a href="#" class="filter-button" onclick="filterGSTData('NOTICE'); return false;">Notices</a>
-                <a href="#" class="filter-button" onclick="filterGSTData('REFUND'); return false;">Refunds</a>
-            </div>
-            <div id="gstContent">
-                <!-- GST content will be loaded here -->
-            </div>
-        </div>
-
-        <!-- Income Tax Section -->
-        <div id="incomeTaxSection" class="section hidden">
-            <h2>Income Tax Services</h2>
-            <div class="button-container">
-                <a href="#" class="filter-button" onclick="filterIncomeTaxData('ALL'); return false;">All ITR</a>
-                <a href="#" class="filter-button" onclick="filterIncomeTaxData('FILING'); return false;">Filing</a>
-                <a href="#" class="filter-button" onclick="filterIncomeTaxData('NOTICE'); return false;">Notices</a>
-                <a href="#" class="filter-button" onclick="filterIncomeTaxData('REFUND'); return false;">Refunds</a>
-                <a href="#" class="filter-button" onclick="filterIncomeTaxData('TDS'); return false;">TDS</a>
-            </div>
-            <div id="incomeTaxContent">
-                <!-- Income Tax content will be loaded here -->
-            </div>
-        </div>
-
-        <!-- EPF Section -->
-        <div id="epfSection" class="section hidden">
-            <h2>EPF Services</h2>
-            <div class="button-container">
-                <a href="#" class="filter-button" onclick="filterEPFData('ALL'); return false;">All EPF</a>
-                <a href="#" class="filter-button" onclick="filterEPFData('REGISTRATION'); return false;">Registrations</a>
-                <a href="#" class="filter-button" onclick="filterEPFData('WITHDRAWAL'); return false;">Withdrawals</a>
-                <a href="#" class="filter-button" onclick="filterEPFData('COMPLIANCE'); return false;">Compliance</a>
-            </div>
-            <div id="epfContent">
-                <!-- EPF content will be loaded here -->
-            </div>
-        </div>
-
-        <!-- PAN Section -->
-        <div id="panSection" class="section hidden">
-            <h2>PAN Services</h2>
-            <div class="button-container">
-                <a href="#" class="filter-button" onclick="filterPANData('ALL'); return false;">All PAN</a>
-                <a href="#" class="filter-button" onclick="filterPANData('NEW'); return false;">New PAN</a>
-                <a href="#" class="filter-button" onclick="filterPANData('CORRECTION'); return false;">Corrections</a>
-                <a href="#" class="filter-button" onclick="filterPANData('REPRINT'); return false;">Reprint</a>
-                <a href="#" class="filter-button" onclick="filterPANData('LINK'); return false;">Aadhaar Link</a>
-            </div>
-            <div id="panContent">
-                <!-- PAN content will be loaded here -->
-            </div>
-        </div>
-
-        <!-- Company Registration Section -->
-        <div id="companySection" class="section hidden">
-            <h2>Company Registration Services</h2>
-            <div class="button-container">
-                <a href="#" class="filter-button" onclick="filterCompanyData('ALL'); return false;">All Companies</a>
-                <a href="#" class="filter-button" onclick="filterCompanyData('PVT'); return false;">Private Ltd</a>
-                <a href="#" class="filter-button" onclick="filterCompanyData('LLP'); return false;">LLP</a>
-                <a href="#" class="filter-button" onclick="filterCompanyData('OPC'); return false;">OPC</a>
-                <a href="#" class="filter-button" onclick="filterCompanyData('STARTUP'); return false;">Startups</a>
-            </div>
-            <div id="companyContent">
-                <!-- Company content will be loaded here -->
-            </div>
-        </div>
-
-        <!-- Settings Section -->
-        <div id="settings" class="section hidden">
-            <h2>System Settings</h2>
-            <div class="form-container">
-                <div class="form-row">
-                    <div class="form-group">
-                        <label for="systemName">System Name:</label>
-                        <input type="text" id="systemName" value="CoreTax Client Management">
-                    </div>
-                    <div class="form-group">
-                        <label for="timezone">Timezone:</label>
-                        <select id="timezone">
-                            <option value="IST">Indian Standard Time (IST)</option>
-                            <option value="UTC">UTC</option>
-                        </select>
-                    </div>
-                </div>
-                <div class="form-row">
-                    <div class="form-group">
-                        <label for="backupFrequency">Backup Frequency:</label>
-                        <select id="backupFrequency">
-                            <option value="daily">Daily</option>
-                            <option value="weekly">Weekly</option>
-                            <option value="monthly">Monthly</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label>&nbsp;</label>
-                        <button type="button" onclick="saveSettings()">Save Settings</button>
-                    </div>
-                </div>
-                <div class="form-row">
-                    <div class="form-group">
-                        <label>Data Management:</label>
-                        <button type="button" class="delete" onclick="backupData()">Create Backup</button>
-                    </div>
-                    <div class="form-group">
-                        <label>&nbsp;</label>
-                        <button type="button" class="delete" onclick="restoreData()">Restore Data</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <script>
+        <script>
         // Global variables
         let editMode = false;
         let editId = null;
         let currentFilter = null;
         let allClientsData = [];
         let currentUser = null;
+        let currentAssigneeFilter = 'ALL';
+        let currentStatusFilter = 'ALL';
         
         const assigneeMobileNumbers = {
             "NIKHIL": "+917989395723",
@@ -1462,23 +1401,34 @@
         });
 
         // Data functions
-        function filterData(status) {
-            currentFilter = status;
-            fetchData();
-            // Highlight the active filter button
-            document.querySelectorAll('.filter-button').forEach(btn => {
-                btn.style.fontWeight = btn.textContent.includes(status) ? 'bold' : 'normal';
-            });
-        }
-        function filterData(assign) {
-            currentFilter = assign;
-            fetchData();
-            // Highlight the active filter button
-            document.querySelectorAll('.filter-button').forEach(btn => {
-                btn.style.fontWeight = btn.textContent.includes(assign) ? 'bold' : 'normal';
-            });
-        }
-
+function filterData(status) {
+    currentFilter = status;
+    
+    // Apply both status filter and current assignee filter
+    let filteredData = allClientsData;
+    
+    // Apply assignee filter if set (and user is not admin)
+    if (currentUser.role === "user" && currentUser.assignee) {
+        filteredData = filteredData.filter(row => row.assign === currentUser.assignee);
+    } else if (currentAssigneeFilter !== 'ALL') {
+        filteredData = filteredData.filter(row => row.assign === currentAssigneeFilter);
+    }
+    
+    // Apply status filter
+    filteredData = filteredData.filter(row => 
+        row.status === currentFilter || 
+        row.work === currentFilter ||
+        row.assign === currentFilter
+    );
+    
+    renderTable(filteredData);
+    renderMobileCards(filteredData);
+    
+    // Highlight the active filter button
+    document.querySelectorAll('.filter-button').forEach(btn => {
+        btn.style.fontWeight = btn.textContent.includes(status) ? 'bold' : 'normal';
+    });
+}
         function clearFilter() {
             currentFilter = null;
             fetchData();
@@ -1487,6 +1437,48 @@
                 btn.style.fontWeight = 'normal';
             });
         }
+
+        function filterByAssignee() {
+            currentAssigneeFilter = document.getElementById('assigneeFilter').value;
+            updateDashboardData();
+        }
+
+        function filterByStatus() {
+            currentStatusFilter = document.getElementById('statusFilter').value;
+            updateDashboardData();
+        }
+
+        function resetDashboardFilters() {
+            document.getElementById('assigneeFilter').value = 'ALL';
+            document.getElementById('statusFilter').value = 'ALL';
+            currentAssigneeFilter = 'ALL';
+            currentStatusFilter = 'ALL';
+            updateDashboardData();
+        }
+
+        function updateDashboardData() {
+    let filteredData = allClientsData;
+    
+    // Apply assignee filter
+    if (currentUser.role === "user" && currentUser.assignee) {
+        filteredData = filteredData.filter(row => row.assign === currentUser.assignee);
+    } else if (currentAssigneeFilter !== 'ALL') {
+        filteredData = filteredData.filter(row => row.assign === currentAssigneeFilter);
+    }
+    
+    // Apply status filter
+    if (currentStatusFilter !== 'ALL') {
+        filteredData = filteredData.filter(row => row.status === currentStatusFilter);
+    }
+    
+    renderTable(filteredData);
+    renderMobileCards(filteredData);
+    updateCounts(filteredData);
+    
+    // Update recent clients
+    const recentClients = filteredData.slice(0, 5);
+    renderRecentClients(recentClients);
+}
 
         function submitForm() {
             const formData = {
@@ -1552,13 +1544,13 @@
                     allClientsData = data; // Store all data for filtering
                     
                     // Apply filter if set
-if (currentFilter) {
-    data = data.filter(row => 
-        row.status === currentFilter || 
-        row.work === currentFilter ||
-        row.assign === currentFilter
-    );
-}
+                    if (currentFilter) {
+                        data = data.filter(row => 
+                            row.status === currentFilter || 
+                            row.work === currentFilter ||
+                            row.assign === currentFilter
+                        );
+                    }
                     
                     // Filter data based on user role
                     if (currentUser.role === "user" && currentUser.assignee) {
@@ -1601,7 +1593,6 @@ if (currentFilter) {
             document.getElementById('waitCount').textContent = filteredData.filter(item => item.status === 'WAIT').length;
             document.getElementById('docsCount').textContent = filteredData.filter(item => item.status === 'DOCS').length;
             document.getElementById('meetCount').textContent = filteredData.filter(item => item.status === 'MEET').length;
-
             document.getElementById('newCount').textContent = filteredData.filter(item => item.status === 'NEW').length;
             document.getElementById('doneCount').textContent = filteredData.filter(item => item.status === 'DONE').length;
             document.getElementById('otpCount').textContent = filteredData.filter(item => item.status === 'OTP').length;
@@ -1610,6 +1601,7 @@ if (currentFilter) {
             document.getElementById('balCount').textContent = filteredData.filter(item => item.status === 'BAL').length;
             document.getElementById('ratingCount').textContent = filteredData.filter(item => item.status === 'RATING').length;
             document.getElementById('tobeCount').textContent = filteredData.filter(item => item.status === 'TO BE').length;
+            document.getElementById('rajuCount').textContent = filteredData.filter(item => item.assign === 'RAJU').length;
         }
 
         function renderTable(data) {
@@ -1646,7 +1638,6 @@ if (currentFilter) {
                 passwordCell.className = 'password-field';
                 
                 newRow.insertCell(10).innerText = currentUser.role === 'admin' ? (row.charges || '-') : (row.charges ? '-' : '-');
-;
                 newRow.insertCell(11).innerText = row.dueDate || '-';
                 
                 const actionCell = newRow.insertCell(12);
@@ -1721,8 +1712,7 @@ if (currentFilter) {
                     </div>
                     <div class="card-row">
                         <span class="card-label">Charges:</span>
-                        <span class="card-value">${currentUser.role === 'admin' ? `${row.charges || '-'}` : ''}
-</span>
+                        <span class="card-value">${currentUser.role === 'admin' ? `${row.charges || '-'}` : ''}</span>
                     </div>
                     <div class="card-row">
                         <span class="card-label">Due Date:</span>
@@ -1754,9 +1744,8 @@ if (currentFilter) {
             const chargesInput = document.getElementById("charges");
             chargesInput.value = row.charges || '';
             chargesInput.style.display = currentUser.role === 'admin' ? '' : 'none';
-	     document.getElementById("dueDate").value = row.dueDate || '';
+            document.getElementById("dueDate").value = row.dueDate || '';
 
-            
             editMode = true;
             editId = row.id;
             
@@ -1843,9 +1832,7 @@ if (currentFilter) {
                           `Username: ${row.username || 'None'}\n\n` +
                           `Password: ${row.password || 'None'}\n\n` +
                           `Files: https://drive.google.com/drive/folders/${row.folderId || 'None'}\n\n` +
-
-                             `Please *update* the task status and remarks at https://sahithitax.github.io/CORE/\n\n`
-                          ;
+                          `Please *update* the task status and remarks at https://sahithitax.github.io/CORE/\n\n`;
 
             const encodedMessage = encodeURIComponent(message);
             const whatsappUrl = `https://wa.me/${assigneeMobile}?text=${encodedMessage}`;
@@ -1965,469 +1952,6 @@ if (currentFilter) {
                 mobileContainer.appendChild(card);
             });
         }
-
-        // Report functions
-        function loadStatusReport() {
-            // In a real app, this would fetch data from your backend
-            const statusReportContent = `
-                <div class="table-container">
-                    <table class="dataTable">
-                        <thead>
-                            <tr>
-                                <th>Status</th>
-                                <th>Count</th>
-                                <th>Percentage</th>
-                                <th>Total Charges</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td class="status-URGENT">URGENT</td>
-                                <td>3</td>
-                                <td>15%</td>
-                                <td>₹15,000</td>
-                            </tr>
-                            <tr>
-                                <td class="status-PENDING">PENDING</td>
-                                <td>5</td>
-                                <td>25%</td>
-                                <td>₹25,000</td>
-                            </tr>
-                            <tr>
-                                <td class="status-DOCS">DOCS</td>
-                                <td>3</td>
-                                <td>15%</td>
-                                <td>₹12,000</td>
-                            </tr>
-                            <tr>
-                                <td class="status-NEW">NEW</td>
-                                <td>4</td>
-                                <td>20%</td>
-                                <td>₹18,000</td>
-                            </tr>
-                            <tr>
-                                <td class="status-DONE">DONE</td>
-                                <td>5</td>
-                                <td>25%</td>
-                                <td>₹30,000</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-                <div class="text-center mt-20">
-                    <button onclick="exportToPDF('statusReport')">Export to PDF</button>
-                    <button onclick="exportToExcel('statusReport')">Export to Excel</button>
-                </div>
-            `;
-            
-            document.getElementById('statusReportContent').innerHTML = statusReportContent;
-        }
-
-        function loadFinancialReport() {
-            // In a real app, this would fetch data from your backend
-            const financialReportContent = `
-                <div class="table-container">
-                    <table class="dataTable">
-                        <thead>
-                            <tr>
-                                <th>Month</th>
-                                <th>New Clients</th>
-                                <th>Completed</th>
-                                <th>Revenue</th>
-                                <th>Expenses</th>
-                                <th>Profit</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>January</td>
-                                <td>12</td>
-                                <td>8</td>
-                                <td>₹60,000</td>
-                                <td>₹20,000</td>
-                                <td>₹40,000</td>
-                            </tr>
-                            <tr>
-                                <td>February</td>
-                                <td>15</td>
-                                <td>10</td>
-                                <td>₹75,000</td>
-                                <td>₹25,000</td>
-                                <td>₹50,000</td>
-                            </tr>
-                            <tr>
-                                <td>March</td>
-                                <td>18</td>
-                                <td>12</td>
-                                <td>₹90,000</td>
-                                <td>₹30,000</td>
-                                <td>₹60,000</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-                <div class="text-center mt-20">
-                    <button onclick="exportToPDF('financialReport')">Export to PDF</button>
-                    <button onclick="exportToExcel('financialReport')">Export to Excel</button>
-                </div>
-            `;
-            
-            document.getElementById('financialReportContent').innerHTML = financialReportContent;
-        }
-
-        function loadAssigneeReport() {
-            // In a real app, this would fetch data from your backend
-            const assigneeReportContent = `
-                <div class="table-container">
-                    <table class="dataTable">
-                        <thead>
-                            <tr>
-                                <th>Assignee</th>
-                                <th>Total Tasks</th>
-                                <th>Completed</th>
-                                <th>Pending</th>
-                                <th>Urgent</th>
-                                <th>Completion Rate</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>NIKHIL</td>
-                                <td>15</td>
-                                <td>10</td>
-                                <td>3</td>
-                                <td>2</td>
-                                <td>67%</td>
-                            </tr>
-                            <tr>
-                                <td>ABHIGNA</td>
-                                <td>12</td>
-                                <td>8</td>
-                                <td>3</td>
-                                <td>1</td>
-                                <td>67%</td>
-                            </tr>
-                            <tr>
-                                <td>RAJU</td>
-                                <td>10</td>
-                                <td>7</td>
-                                <td>2</td>
-                                <td>1</td>
-                                <td>70%</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-                <div class="text-center mt-20">
-                    <button onclick="exportToPDF('assigneeReport')">Export to PDF</button>
-                    <button onclick="exportToExcel('assigneeReport')">Export to Excel</button>
-                </div>
-            `;
-            
-            document.getElementById('assigneeReportContent').innerHTML = assigneeReportContent;
-        }
-
-        // Section-specific data loading
-        function loadGSTData() {
-            // In a real app, this would fetch data from your backend
-            const gstContent = `
-                <div class="table-container">
-                    <table class="dataTable">
-                        <thead>
-                            <tr>
-                                <th>Client Name</th>
-                                <th>GSTIN</th>
-                                <th>Service Type</th>
-                                <th>Status</th>
-                                <th>Due Date</th>
-                                <th>Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>ABC Traders</td>
-                                <td>22AAAAA0000A1Z5</td>
-                                <td>Registration</td>
-                                <td class="status-DONE">DONE</td>
-                                <td>2023-01-15</td>
-                                <td>
-                                    <div class="action-buttons">
-                                        <button class="edit">View</button>
-                                        <button class="whatsapp">Contact</button>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>XYZ Enterprises</td>
-                                <td>33BBBBB0000B1Z5</td>
-                                <td>Return Filing</td>
-                                <td class="status-PENDING">PENDING</td>
-                                <td>2023-02-20</td>
-                                <td>
-                                    <div class="action-buttons">
-                                        <button class="edit">View</button>
-                                        <button class="whatsapp">Contact</button>
-                                    </div>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            `;
-            
-            document.getElementById('gstContent').innerHTML = gstContent;
-        }
-
-        function filterGSTData(filter) {
-            // In a real app, this would filter data from your backend
-            alert(`Filtering GST data by: ${filter}`);
-        }
-
-        function loadIncomeTaxData() {
-            // In a real app, this would fetch data from your backend
-            const incomeTaxContent = `
-                <div class="table-container">
-                    <table class="dataTable">
-                        <thead>
-                            <tr>
-                                <th>Client Name</th>
-                                <th>PAN</th>
-                                <th>Service Type</th>
-                                <th>Assessment Year</th>
-                                <th>Status</th>
-                                <th>Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>John Doe</td>
-                                <td>AAAAA0000A</td>
-                                <td>ITR Filing</td>
-                                <td>2022-23</td>
-                                <td class="status-DONE">DONE</td>
-                                <td>
-                                    <div class="action-buttons">
-                                        <button class="edit">View</button>
-                                        <button class="whatsapp">Contact</button>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>Jane Smith</td>
-                                <td>BBBBB0000B</td>
-                                <td>Notice Response</td>
-                                <td>2021-22</td>
-                                <td class="status-PENDING">PENDING</td>
-                                <td>
-                                    <div class="action-buttons">
-                                        <button class="edit">View</button>
-                                        <button class="whatsapp">Contact</button>
-                                    </div>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            `;
-            
-            document.getElementById('incomeTaxContent').innerHTML = incomeTaxContent;
-        }
-
-        function filterIncomeTaxData(filter) {
-            // In a real app, this would filter data from your backend
-            alert(`Filtering Income Tax data by: ${filter}`);
-        }
-
-        function loadEPFData() {
-            // In a real app, this would fetch data from your backend
-            const epfContent = `
-                <div class="table-container">
-                    <table class="dataTable">
-                        <thead>
-                            <tr>
-                                <th>Client Name</th>
-                                <th>Establishment</th>
-                                <th>Service Type</th>
-                                <th>Status</th>
-                                <th>Due Date</th>
-                                <th>Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>ABC Corporation</td>
-                                <td>ABC Corp</td>
-                                <td>Registration</td>
-                                <td class="status-DONE">DONE</td>
-                                <td>2023-01-10</td>
-                                <td>
-                                    <div class="action-buttons">
-                                        <button class="edit">View</button>
-                                        <button class="whatsapp">Contact</button>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>XYZ Industries</td>
-                                <td>XYZ Ind</td>
-                                <td>Withdrawal</td>
-                                <td class="status-PENDING">PENDING</td>
-                                <td>2023-02-15</td>
-                                <td>
-                                    <div class="action-buttons">
-                                        <button class="edit">View</button>
-                                        <button class="whatsapp">Contact</button>
-                                    </div>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            `;
-            
-            document.getElementById('epfContent').innerHTML = epfContent;
-        }
-
-        function filterEPFData(filter) {
-            // In a real app, this would filter data from your backend
-            alert(`Filtering EPF data by: ${filter}`);
-        }
-
-        function loadPANData() {
-            // In a real app, this would fetch data from your backend
-            const panContent = `
-                <div class="table-container">
-                    <table class="dataTable">
-                        <thead>
-                            <tr>
-                                <th>Client Name</th>
-                                <th>Service Type</th>
-                                <th>PAN</th>
-                                <th>Status</th>
-                                <th>Applied Date</th>
-                                <th>Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>Rahul Sharma</td>
-                                <td>New PAN</td>
-                                <td>AAAAA0000A</td>
-                                <td class="status-DONE">DONE</td>
-                                <td>2023-01-05</td>
-                                <td>
-                                    <div class="action-buttons">
-                                        <button class="edit">View</button>
-                                        <button class="whatsapp">Contact</button>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>Priya Patel</td>
-                                <td>Correction</td>
-                                <td>BBBBB0000B</td>
-                                <td class="status-PENDING">PENDING</td>
-                                <td>2023-02-10</td>
-                                <td>
-                                    <div class="action-buttons">
-                                        <button class="edit">View</button>
-                                        <button class="whatsapp">Contact</button>
-                                    </div>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            `;
-            
-            document.getElementById('panContent').innerHTML = panContent;
-        }
-
-        function filterPANData(filter) {
-            // In a real app, this would filter data from your backend
-            alert(`Filtering PAN data by: ${filter}`);
-        }
-
-        function loadCompanyData() {
-            // In a real app, this would fetch data from your backend
-            const companyContent = `
-                <div class="table-container">
-                    <table class="dataTable">
-                        <thead>
-                            <tr>
-                                <th>Company Name</th>
-                                <th>Type</th>
-                                <th>CIN</th>
-                                <th>Status</th>
-                                <th>Incorporation Date</th>
-                                <th>Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>ABC Pvt Ltd</td>
-                                <td>Private Limited</td>
-                                <td>U12345MH2023PTC123456</td>
-                                <td class="status-DONE">DONE</td>
-                                <td>2023-01-20</td>
-                                <td>
-                                    <div class="action-buttons">
-                                        <button class="edit">View</button>
-                                        <button class="whatsapp">Contact</button>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>XYZ LLP</td>
-                                <td>LLP</td>
-                                <td>AAF-1234</td>
-                                <td class="status-PENDING">PENDING</td>
-                                <td>2023-02-25</td>
-                                <td>
-                                    <div class="action-buttons">
-                                        <button class="edit">View</button>
-                                        <button class="whatsapp">Contact</button>
-                                    </div>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            `;
-            
-            document.getElementById('companyContent').innerHTML = companyContent;
-        }
-
-        function filterCompanyData(filter) {
-            // In a real app, this would filter data from your backend
-            alert(`Filtering Company data by: ${filter}`);
-        }
-
-        // Utility functions
-        function exportToPDF(section) {
-            alert(`Exporting ${section} to PDF`);
-            // In a real app, this would generate a PDF of the section content
-        }
-
-        function exportToExcel(section) {
-            alert(`Exporting ${section} to Excel`);
-            // In a real app, this would generate an Excel file of the section content
-        }
-
-        function saveSettings() {
-            alert("Settings saved successfully!");
-            // In a real app, this would save the settings to your backend
-        }
-
-        function backupData() {
-            alert("Data backup created successfully!");
-            // In a real app, this would create a backup of your data
-        }
-
-        function restoreData() {
-            alert("Data restored successfully!");
-            // In a real app, this would restore data from a backup
-        }
-    </script>
+        </script>
 </body>
 </html>
