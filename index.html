@@ -764,6 +764,7 @@
                     <select id="statusFilter" onchange="filterByStatus()">
                         <option value="ALL">All Statuses</option>
                         <option value="URGENT">URGENT</option>
+                       <option value="LEAD">LEAD</option>
                         <option value="SUBMITTED">SUBMITTED</option>
                         <option value="OTP">OTP</option>
                         <option value="DOCS">DOCS</option>
@@ -795,6 +796,12 @@
                     <i class="fas fa-exclamation-circle"></i>
                     <a href="#" class="filter-button urgent" onclick="filterData('URGENT'); return false;">URGENT</a>
                     <div class="count" id="urgentCount">0</div>
+                    <p>Requires immediate attention</p>
+                </div>
+                <div class="summary-card urgent">
+                    <i class="fas fa-exclamation-circle"></i>
+                    <a href="#" class="filter-button urgent" onclick="filterData('LEAD'); return false;">LEAD</a>
+                    <div class="count" id="leadCount">0</div>
                     <p>Requires immediate attention</p>
                 </div>
                 <div class="summary-card urgent">
@@ -1069,6 +1076,7 @@
                             <label for="status">Status:</label>
                             <select id="status" name="status" required>
                                 <option value="URGENT">URGENT</option>
+                                 <option value="LEAD">LEAD</option>
                                 <option value="OTP">OTP</option>
                                 <option value="SUBMITTED">SUBMITTED</option>
                                 <option value="KNOW">KNOW</option>
@@ -1587,6 +1595,7 @@ function filterData(status) {
             
             document.getElementById('totalCount').textContent = filteredData.length;
             document.getElementById('urgentCount').textContent = filteredData.filter(item => item.status === 'URGENT').length;
+            document.getElementById('leadCount').textContent = filteredData.filter(item => item.status === 'LEAD').length;
             document.getElementById('subCount').textContent = filteredData.filter(item => item.status === 'SUBMITTED').length;
             document.getElementById('pendingCount').textContent = filteredData.filter(item => item.status === 'PENDING').length;
             document.getElementById('knowCount').textContent = filteredData.filter(item => item.status === 'KNOW').length;
