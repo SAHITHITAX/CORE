@@ -1871,8 +1871,8 @@ function filterData(status) {
                           `Remarks: ${row.remark || 'None'}\n\n` +
                           `Username: ${row.username || 'None'}\n\n` +
                           `Password: ${row.password || 'None'}\n\n` +
-                          `Files: https://drive.google.com/drive/folders/${row.folderId || 'None'}\n\n` +
-                          `Please *update* the task status and remarks at https://sahithitax.github.io/CORE/\n\n`;
+                          `Please *update* the task status and remarks at https://sahithitax.github.io/CORE/\n\n`+
+                          `Files: https://drive.google.com/drive/folders/${row.folderId || 'None'}\n\n`;
 
             const encodedMessage = encodeURIComponent(message);
             const whatsappUrl = `https://wa.me/${assigneeMobile}?text=${encodedMessage}`;
