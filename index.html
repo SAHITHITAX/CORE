@@ -734,7 +734,7 @@
             <h1 id="pageTitle">Dashboard</h1>
             <div class="user-profile">
                 <img src="https://via.placeholder.com/40" alt="User" id="userAvatar">
-                <a href="https://script.google.com/macros/s/AKfycbz6sSmz0pP_7Z8khNgPBVP5Zu6j6WN1V1jaGW2GtQQnUoRqQchqDe7ZQ2XrvVGT2Uwtkg/exec">Earnings</a>
+                <a href="" id="userNameDisplay">Earnings</a>
                 <span id="userNameDisplay">Admin</span>
                 <button onclick="logout()" style="margin-left: 10px; padding: 5px 10px; font-size: 12px;">Logout</button>
             </div>
@@ -1263,7 +1263,8 @@
                 name: "Sunny", 
                 role: "user", 
                 assignee: "SUNNY",
-                avatar: "https://via.placeholder.com/40/e74c3c/ffffff?text=A"
+                avatar: "https://via.placeholder.com/40/e74c3c/ffffff?text=A",
+                link: "https://script.google.com/macros/s/AKfycbz6sSmz0pP_7Z8khNgPBVP5Zu6j6WN1V1jaGW2GtQQnUoRqQchqDe7ZQ2XrvVGT2Uwtkg/exec"
             },
                         { 
                 username: "7855877731", 
@@ -1309,6 +1310,7 @@
                 // Update user profile in header
                 document.getElementById("userNameDisplay").textContent = user.name;
                 document.getElementById("userAvatar").src = user.avatar;
+                document.getElementById("userLink").src = user.link;
                 
                 // Set up UI based on user role
                 setupUserUI();
