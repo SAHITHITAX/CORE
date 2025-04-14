@@ -785,6 +785,7 @@
                         <option value="TO BE">TO BE</option>
                         <option value="NEW">NEW</option>
                         <option value="DONE">DONE</option>
+                        <option value="COMPLETED">COMPLETED</option>
                     </select>
                 </div>
                 
@@ -904,6 +905,12 @@
                     <i class="fas fa-check-circle"></i>
                     <a href="#" class="filter-button done" onclick="filterData('DONE'); return false;">DONE</a>
                     <div class="count" id="doneCount">0</div>
+                    <p>Work finished</p>
+                </div>
+                <div class="summary-card done">
+                    <i class="fas fa-check-circle"></i>
+                    <a href="#" class="filter-button done" onclick="filterData('COMPLETED'); return false;">COMPLETED</a>
+                    <div class="count" id="comCount">0</div>
                     <p>Work finished</p>
                 </div>
                 <div class="summary-card done">
@@ -1107,6 +1114,7 @@
                                 <option value="MEET">MEET</option>
                                 <option value="RATING">RATING</option>
                                 <option value="DONE">DONE</option>
+                                 <option value="COMPLETED">COMPLETED</option>
                                 <option value="REMIND">REMIND</option>
                                 <option value="BAL">BAL</option>
                                 <option value="WAIT">WAIT</option>
@@ -1180,6 +1188,7 @@
                 <a href="#" class="filter-button" onclick="filterData('ITR REMINDER'); return false;">ITR</a>
                 <a href="#" class="filter-button" onclick="filterData('GST RETURN'); return false;">GST</a>
                 <a href="#" class="filter-button done" onclick="filterData('DONE'); return false;">DONE</a>
+                <a href="#" class="filter-button done" onclick="filterData('COMPLETED'); return false;">COMPLETED</a>
                 <a href="#" class="filter-button urgent" onclick="filterData('MISSED'); return false;">MISSED</a>
                 <a href="#" class="filter-button" onclick="clearFilter(); return false;">ALL</a>
             </div>
@@ -1660,6 +1669,7 @@ function filterData(status) {
             document.getElementById('meetCount').textContent = filteredData.filter(item => item.status === 'MEET').length;
             document.getElementById('newCount').textContent = filteredData.filter(item => item.status === 'NEW').length;
             document.getElementById('doneCount').textContent = filteredData.filter(item => item.status === 'DONE').length;
+            document.getElementById('COMCount').textContent = filteredData.filter(item => item.status === 'COMPLETED').length;
             document.getElementById('otpCount').textContent = filteredData.filter(item => item.status === 'OTP').length;
             document.getElementById('remindCount').textContent = filteredData.filter(item => item.status === 'REMIND').length;
             document.getElementById('callCount').textContent = filteredData.filter(item => item.status === 'CALL').length;
