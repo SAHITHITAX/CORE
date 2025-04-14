@@ -1311,6 +1311,7 @@
                 role: "admin", 
                 assignee: "RAJU",
                 avatar: "https://via.placeholder.com/40/9b59b6/ffffff?text=R"
+                link: "https://script.google.com/macros/s/AKfycbym-MasZm4T1WHQq7ypNpxaaNDTmwKRyA28wwB2N6502Nc_xZux6zEyh7r-85-VVrchVg/exec"
             }
         ];
 
@@ -1669,7 +1670,7 @@ function filterData(status) {
             document.getElementById('meetCount').textContent = filteredData.filter(item => item.status === 'MEET').length;
             document.getElementById('newCount').textContent = filteredData.filter(item => item.status === 'NEW').length;
             document.getElementById('doneCount').textContent = filteredData.filter(item => item.status === 'DONE').length;
-            document.getElementById('COMCount').textContent = filteredData.filter(item => item.status === 'COMPLETED').length;
+            document.getElementById('comCount').textContent = filteredData.filter(item => item.status === 'COMPLETED').length;
             document.getElementById('otpCount').textContent = filteredData.filter(item => item.status === 'OTP').length;
             document.getElementById('remindCount').textContent = filteredData.filter(item => item.status === 'REMIND').length;
             document.getElementById('callCount').textContent = filteredData.filter(item => item.status === 'CALL').length;
