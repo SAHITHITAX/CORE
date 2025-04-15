@@ -1947,38 +1947,53 @@ function formatPhoneNumber(rawNumber) {
             }
         }
 
-        function sendWhatsAppMessage(row) {
-            const mobile = row.mobile.replace(/\D/g, '');
-            let internationalMobile;
-            
-            if (mobile.startsWith('+')) {
-                internationalMobile = mobile;
-            } else if (mobile.startsWith('91') && mobile.length === 12) {
-                internationalMobile = `+${mobile}`;
-            } else if (mobile.length === 10) {
-                internationalMobile = `+91${mobile}`;
-            } else {
-                alert("Invalid mobile number format");
-                return;
-            }
+function sendWhatsAppMessage(row) {
+    const mobile = row.mobile.replace(/\D/g, '');
+    let internationalMobile;
 
-            let message = `Hello ${row.name || 'there'},\n\n`;
-            message += `Regarding your ${row.work || 'service'} with us:\n`;
+    if (mobile.startsWith('+')) {
+        internationalMobile = mobile;
+    } else if (mobile.startsWith('91') && mobile.length === 12) {
+        internationalMobile = `+${mobile}`;
+    } else if (mobile.length === 10) {
+        internationalMobile = `+91${mobile}`;
+    } else {
+        alert("Invalid mobile number format");
+        return;
+    }
 
-            
-            if (row.status === 'DOCS') {
-                message += `Please share the required documents at your earliest convenience.\n\n`;
-            }
-            if (row.status === 'RATING') {
-                message += `Your work has been completed successfully and charges are ${row.charges}.\n\nPlease give us a rating.\n\nWhich will be most helpful.\n\nhttps://www.justdial.com/Rangareddy/Sahithi-Tax-Consultancy-Near-Gram-Panchayat-Hayath-Nagar/040PXX40-XX40-240128082904-G1Z7_BZDET/writereview?city=Rangareddy\n\n`;
-            }
-            
-            message += `Thank you,\nCoreTax Team`;
+    const messageType = prompt(
+        "Choose message type:\n1 - Hi\n2 - Send me docs\n3 - Gentle reminder\n4 - Payment",
+        "1"
+    );
 
-            const encodedMessage = encodeURIComponent(message);
-            const whatsappUrl = `https://wa.me/${internationalMobile}?text=${encodedMessage}`;
-            window.open(whatsappUrl, "_blank");
-        }
+    if (!messageType) return;
+
+    let message = "";
+
+    switch (messageType.trim()) {
+        case '1':
+            message = `Hi ${row.name || 'there'},\n\nHope you're doing well!\n\n- CoreTax Team`;
+            break;
+        case '2':
+            message = `Hello ${row.name || 'there'},\n\nPlease share the required documents for your ${row.work || 'service'} with us at your earliest convenience.\n\nThank you,\nCoreTax Team`;
+            break;
+        case '3':
+            message = `Hi ${row.name || 'there'},\n\nJust a gentle reminder to send the pending documents for your ${row.work || 'service'}.\n\nThank you,\nCoreTax Team`;
+            break;
+        case '4':
+            message = `Hello ${row.name || 'there'},\n\nYour ${row.work || 'work'} has been completed successfully. The charges are ₹${row.charges}.\n\nPlease consider giving us a rating, it helps a lot!\n\nhttps://www.justdial.com/Rangareddy/Sahithi-Tax-Consultancy-Near-Gram-Panchayat-Hayath-Nagar/040PXX40-XX40-240128082904-G1Z7_BZDET/writereview?city=Rangareddy\n\nThank you,\nCoreTax Team`;
+            break;
+        default:
+            alert("Invalid choice. Please enter 1, 2, 3, or 4.");
+            return;
+    }
+
+    const encodedMessage = encodeURIComponent(message);
+    const whatsappUrl = `https://wa.me/${internationalMobile}?text=${encodedMessage}`;
+    window.open(whatsappUrl, "_blank");
+}
+
 
         function sendAssigneeWhatsAppMessage(row) {
             if (!row.assign) {
