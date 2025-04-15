@@ -678,6 +678,13 @@
         
         /* Font Awesome Icons */
         @import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css');
+
+        .copy-task { 
+    background-color: #9b59b6; 
+}
+.copy-task:hover { 
+    background-color: #8e44ad; 
+}
     </style>
 </head>
 <body>
@@ -1724,6 +1731,7 @@ function filterData(status) {
                 actionCell.innerHTML = `
                     <div class="action-buttons">
                         <button class="edit" onclick="editRow(${JSON.stringify(row).replace(/"/g, '&quot;')})">Edit</button>
+                        <button class="copy-task" onclick="createSimilarTask(${JSON.stringify(row).replace(/"/g, '&quot;')})">Copy Task</button>
                         ${currentUser.role === 'admin' ? `<button class="delete" onclick="deleteRow('${row.id}')">Delete</button>` : ''}
                         ${row.folderId ? `<button class="open-folder" onclick="openFolder('${row.folderId}')">Folder</button>` : ''}
                         <button class="whatsapp" onclick="sendWhatsAppMessage(${JSON.stringify(row).replace(/"/g, '&quot;')})">WhatsApp</button>
@@ -1800,6 +1808,7 @@ function filterData(status) {
                     </div>
                     <div class="action-buttons">
                         <button class="edit" onclick="editRow(${JSON.stringify(row).replace(/"/g, '&quot;')})">Edit</button>
+                        <button class="copy-task" onclick="createSimilarTask(${JSON.stringify(row).replace(/"/g, '&quot;')})">Copy Task</button>
                         ${currentUser.role === 'admin' ? `<button class="delete" onclick="deleteRow('${row.id}')">Delete</button>` : ''}
                         ${row.folderId ? `<button class="open-folder" onclick="openFolder('${row.folderId}')">Folder</button>` : ''}
                         <button class="whatsapp" onclick="sendWhatsAppMessage(${JSON.stringify(row).replace(/"/g, '&quot;')})">WhatsApp</button>
@@ -2032,6 +2041,40 @@ function filterData(status) {
                 mobileContainer.appendChild(card);
             });
         }
+
+        function createSimilarTask(row) {
+    // Reset the form first
+    document.getElementById("dataForm").reset();
+    
+    // Pre-fill the form with similar data
+    document.getElementById("name").value = row.name || '';
+    document.getElementById("mobile").value = row.mobile || '';
+    document.getElementById("email").value = row.email || '';
+    document.getElementById("work").value = row.work || '';
+    document.getElementById("assign").value = row.assign || '';
+    document.getElementById("status").value = 'NEW'; // Default status for new task
+    document.getElementById("remark").value = `Follow-up for ${row.work || 'service'}`; // New remark
+    
+    // Clear these fields as they're likely different for the new task
+    document.getElementById("username").value = '';
+    document.getElementById("password").value = '';
+    document.getElementById("charges").value = '';
+    
+    // Set today's date as default for due date
+    const today = new Date().toISOString().split('T')[0];
+    document.getElementById("dueDate").value = today;
+    
+    // Reset edit mode
+    editMode = false;
+    editId = null;
+    document.querySelector("#dataForm button").textContent = "Submit Data";
+    
+    // Show the add client section
+    showSection('addClient');
+    
+    // Scroll to form
+    document.getElementById("dataForm").scrollIntoView({ behavior: 'smooth' });
+}
         </script>
 </body>
 </html>
