@@ -1563,49 +1563,83 @@ function filterData(status) {
     renderRecentClients(recentClients);
 }
 
-        function submitForm() {
-            const formData = {
-                id: editMode ? editId : null,
-                name: document.getElementById("name").value,
-                mobile: document.getElementById("mobile").value,
-                email: document.getElementById("email").value,
-                work: document.getElementById("work").value,
-                assign: document.getElementById("assign").value,
-                status: document.getElementById("status").value,
-                remark: document.getElementById("remark").value,
-                username: document.getElementById("username").value,
-                password: document.getElementById("password").value,
-                charges: document.getElementById("charges").value,
-                dueDate: document.getElementById("dueDate").value
-            };
+ function submitForm() {
+    const formData = {
+        id: editMode ? editId : null,
+        name: document.getElementById("name").value,
+        mobile: document.getElementById("mobile").value,
+        email: document.getElementById("email").value,
+        work: document.getElementById("work").value,
+        assign: document.getElementById("assign").value,
+        status: document.getElementById("status").value,
+        remark: document.getElementById("remark").value,
+        username: document.getElementById("username").value,
+        password: document.getElementById("password").value,
+        charges: document.getElementById("charges").value,
+        dueDate: document.getElementById("dueDate").value
+    };
 
-            // Basic validation
-            if (!formData.name || !formData.mobile || !formData.work) {
-                alert("Please fill in all required fields");
-                return;
-            }
+    if (!formData.name || !formData.mobile || !formData.work) {
+        alert("Please fill in all required fields");
+        return;
+    }
 
-            const endpoint = 'https://script.google.com/macros/s/AKfycbyzVrkiJlT9V2Vpw7hCrc8W9ILX73x1BiY2zhZgu8RvG-dyLNuW1vpqiHzZjNN43agvvw/exec';
-            
-            fetch(endpoint, {
-                method: 'POST',
-                mode: 'no-cors',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(formData)
-            }).then(() => {
-                alert(editMode ? "Data updated successfully!" : "New client added!");
-                document.getElementById("dataForm").reset();
-                editMode = false;
-                editId = null;
-                fetchData();
-                loadDashboardData(); // Refresh dashboard data
-            }).catch(error => {
-                console.error("Error:", error);
-                alert("An error occurred. Please try again.");
-            });
-        }
+    const endpoint = 'https://script.google.com/macros/s/AKfycbyzVrkiJlT9V2Vpw7hCrc8W9ILX73x1BiY2zhZgu8RvG-dyLNuW1vpqiHzZjNN43agvvw/exec';
+
+    fetch(endpoint, {
+        method: 'POST',
+        mode: 'no-cors',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(formData)
+    }).then(() => {
+        alert(editMode ? "Data updated successfully!" : "New client added!");
+        document.getElementById("dataForm").reset();
+        editMode = false;
+        editId = null;
+        fetchData();
+        loadDashboardData();
+
+        // Send WhatsApp messages
+        sendWhatsAppMessages(formData);
+
+    }).catch(error => {
+        console.error("Error:", error);
+        alert("An error occurred. Please try again.");
+    });
+}
+
+function sendWhatsAppMessages(formData) {
+    const assigneeNumber = assigneeMobileNumbers[formData.assign];
+    const clientNumber = formData.mobile;
+
+    const encodedMessage = encodeURIComponent(
+        `Hi ${formData.assign},\n\n` +
+        `You have been assigned new work:\n` +
+        `Work: ${formData.work}\n` +
+        `Client: ${formData.name}\n` +
+        `Due Date: ${formData.dueDate}\n\n` +
+        `Please check the dashboard for details.`
+    );
+
+    const clientMessage = encodeURIComponent(
+        `Hi ${formData.name},\n\n` +
+        `Thank you for submitting your details.\n` +
+        `Work: ${formData.work}\n` +
+        `Assigned To: ${formData.assign}\n` +
+        `We will get in touch with you soon.`
+    );
+
+    if (assigneeNumber) {
+        window.open(`https://wa.me/${assigneeNumber.replace('+', '')}?text=${encodedMessage}`, '_blank');
+    }
+
+    if (clientNumber) {
+        window.open(`https://wa.me/${clientNumber.replace('+', '')}?text=${clientMessage}`, '_blank');
+    }
+}
+
 
         function fetchData() {
             const loadingMessage = document.createElement('div');
