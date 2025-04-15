@@ -795,6 +795,15 @@
                         <option value="COMPLETED">COMPLETED</option>
                     </select>
                 </div>
+    		<div class="dashboard-filter">
+                    <label for="paidFilter">Filter by payment:</label>
+                    <select id="paidFilter" onchange="filterByPaid()">
+			<option value="ALL">All PAYMENT</option>
+ 			<option value="NOT PAID">NOT PAID</option>
+                        <option value="PAID">PAID</option>
+                     </select>
+                </div>
+
                 
                 <button onclick="resetDashboardFilters()">Reset Filters</button>
             </div>
@@ -945,6 +954,7 @@
                             <th>Charges</th>
                             <th>Due Date</th>
                             <th>Actions</th>
+			    <th>PAID/NOT PAID</th>
                         </tr>
                     </thead>
                     <tbody id="tableBody">
@@ -1168,7 +1178,15 @@
                             <label for="dueDate">Due Date:</label>
                             <input type="date" id="dueDate" name="dueDate">
                         </div>
-                        
+                       <div class="form-group">
+    			<label for="other">Payment:</label>
+    
+  			  <select id="other" name="other" required>
+  			      <option value="PAID">PAID</option>
+  			      <option value="NOT PAID" selected>NOT PAID</option>
+  			  </select>
+			</div>
+
                         <div class="form-group">
                             <label>&nbsp;</label>
                             <input type="hidden" id="editId">
@@ -1530,6 +1548,12 @@ function filterData(status) {
             currentStatusFilter = document.getElementById('statusFilter').value;
             updateDashboardData();
         }
+ 	function filterByPaid() {
+            currentPaidFilter = document.getElementById('paidFilter').value;
+            updateDashboardData();
+        }
+
+
 
         function resetDashboardFilters() {
             document.getElementById('assigneeFilter').value = 'ALL';
@@ -1553,6 +1577,12 @@ function filterData(status) {
     if (currentStatusFilter !== 'ALL') {
         filteredData = filteredData.filter(row => row.status === currentStatusFilter);
     }
+
+ // Apply payment filter
+    if (currentPaidFilter !== 'ALL') {
+        filteredData = filteredData.filter(row => row.other === currentPaidFilter);
+    }
+
     
     renderTable(filteredData);
     renderMobileCards(filteredData);
@@ -1576,7 +1606,8 @@ function filterData(status) {
         username: document.getElementById("username").value,
         password: document.getElementById("password").value,
         charges: document.getElementById("charges").value,
-        dueDate: document.getElementById("dueDate").value
+        dueDate: document.getElementById("dueDate").value,
+        other: document.getElementById("other").value,
     };
 
     if (!formData.name || !formData.mobile || !formData.work) {
@@ -1584,7 +1615,7 @@ function filterData(status) {
         return;
     }
 
-    const endpoint = 'https://script.google.com/macros/s/AKfycbyzVrkiJlT9V2Vpw7hCrc8W9ILX73x1BiY2zhZgu8RvG-dyLNuW1vpqiHzZjNN43agvvw/exec';
+    const endpoint = 'https://script.google.com/macros/s/AKfycbzlCK8ARcsR53irbpUiH9WC1_4C02QntewwebKAncBOydd9q7dxoHGG5vyrhXt1EYeg/exec';
 
     fetch(endpoint, {
         method: 'POST',
@@ -1610,34 +1641,43 @@ function filterData(status) {
     });
 }
 
+
+
 function sendWhatsAppMessages(formData) {
     const assigneeNumber = assigneeMobileNumbers[formData.assign];
-    const clientNumber = formData.mobile;
+    const clientNumber = formatPhoneNumber(formData.mobile);
 
-    const encodedMessage = encodeURIComponent(
+     const encodedMessage = encodeURIComponent(
         `Hi ${formData.assign},\n\n` +
         `You have been assigned new work:\n` +
         `Work: ${formData.work}\n` +
         `Client: ${formData.name}\n` +
-        `Due Date: ${formData.dueDate}\n\n` +
+	`Remarks:${formData.remark}\n\n` +
         `Please check the dashboard for details.`
     );
 
     const clientMessage = encodeURIComponent(
         `Hi ${formData.name},\n\n` +
-        `Thank you for submitting your details.\n` +
-        `Work: ${formData.work}\n` +
-        `Assigned To: ${formData.assign}\n` +
-        `We will get in touch with you soon.`
+        `Your Service Request Details have been received successfully .\n` +
+        `Work: *${formData.work}*\n` +
+        `Work Assigned To *${formData.assign}*\n` +
+	`\n` +
+        `He will get in touch with you soon.`
     );
 
+
     if (assigneeNumber) {
-        window.open(`https://wa.me/${assigneeNumber.replace('+', '')}?text=${encodedMessage}`, '_blank');
+        const formattedAssignee = formatPhoneNumber(assigneeNumber);
+        window.open(`https://wa.me/${formattedAssignee}?text=${encodedMessage}`, '_blank');
     }
 
     if (clientNumber) {
-        window.open(`https://wa.me/${clientNumber.replace('+', '')}?text=${clientMessage}`, '_blank');
+        window.open(`https://wa.me/${clientNumber}?text=${clientMessage}`, '_blank');
     }
+}
+
+function formatPhoneNumber(rawNumber) {
+    return rawNumber.replace(/\D/g, ''); // Remove spaces, +, etc.
 }
 
 
@@ -1650,7 +1690,7 @@ function sendWhatsAppMessages(formData) {
             document.getElementById("mobileCardsContainer").innerHTML = '';
             document.getElementById("mobileCardsContainer").appendChild(loadingMessage.cloneNode(true));
 
-            const endpoint = 'https://script.google.com/macros/s/AKfycbyzVrkiJlT9V2Vpw7hCrc8W9ILX73x1BiY2zhZgu8RvG-dyLNuW1vpqiHzZjNN43agvvw/exec';
+            const endpoint = 'https://script.google.com/macros/s/AKfycbzlCK8ARcsR53irbpUiH9WC1_4C02QntewwebKAncBOydd9q7dxoHGG5vyrhXt1EYeg/exec';
             
             fetch(endpoint)
                 .then(response => {
@@ -1760,6 +1800,8 @@ function sendWhatsAppMessages(formData) {
                 
                 newRow.insertCell(10).innerText = currentUser.role === 'admin' ? (row.charges || '-') : (row.charges ? '-' : '-');
                 newRow.insertCell(11).innerText = row.dueDate || '-';
+                newRow.insertCell(12).innerText = row.other || '-';
+
                 
                 const actionCell = newRow.insertCell(12);
                 actionCell.innerHTML = `
@@ -1840,6 +1882,10 @@ function sendWhatsAppMessages(formData) {
                         <span class="card-label">Due Date:</span>
                         <span class="card-value">${row.dueDate || '-'}</span>
                     </div>
+		    <div class="card-row">
+                        <span class="card-label">Other:</span>
+                        <span class="card-value">${row.other || '-'}</span>
+                    </div>
                     <div class="action-buttons">
                         <button class="edit" onclick="editRow(${JSON.stringify(row).replace(/"/g, '&quot;')})">Edit</button>
                         <button class="copy-task" onclick="createSimilarTask(${JSON.stringify(row).replace(/"/g, '&quot;')})">Copy Task</button>
@@ -1868,6 +1914,7 @@ function sendWhatsAppMessages(formData) {
             chargesInput.value = row.charges || '';
             chargesInput.style.display = currentUser.role === 'admin' ? '' : 'none';
             document.getElementById("dueDate").value = row.dueDate || '';
+	    document.getElementById("other").value = row.other || '';
 
             editMode = true;
             editId = row.id;
@@ -1882,7 +1929,7 @@ function sendWhatsAppMessages(formData) {
 
         function deleteRow(id) {
             if (confirm("Are you sure you want to delete this record?")) {
-                fetch('https://script.google.com/macros/s/AKfycbyzVrkiJlT9V2Vpw7hCrc8W9ILX73x1BiY2zhZgu8RvG-dyLNuW1vpqiHzZjNN43agvvw/exec', {
+                fetch('https://script.google.com/macros/s/AKfycbzlCK8ARcsR53irbpUiH9WC1_4C02QntewwebKAncBOydd9q7dxoHGG5vyrhXt1EYeg/exec', {
                     method: 'POST',
                     mode: 'no-cors',
                     headers: {
@@ -2086,7 +2133,7 @@ function sendWhatsAppMessages(formData) {
     document.getElementById("email").value = row.email || '';
     document.getElementById("work").value = row.work || '';
     document.getElementById("assign").value = row.assign || '';
-    document.getElementById("status").value = 'NEW'; // Default status for new task
+    document.getElementById("status").value = 'URGENT'; // Default status for new task
     document.getElementById("remark").value = `Follow-up for ${row.work || 'service'}`; // New remark
     
     // Clear these fields as they're likely different for the new task
@@ -2097,6 +2144,7 @@ function sendWhatsAppMessages(formData) {
     // Set today's date as default for due date
     const today = new Date().toISOString().split('T')[0];
     document.getElementById("dueDate").value = today;
+    document.getElementById("other").value = '';
     
     // Reset edit mode
     editMode = false;
