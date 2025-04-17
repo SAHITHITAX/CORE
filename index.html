@@ -836,7 +836,28 @@
                     <p>Requires immediate attention</p>
                 </div>
 
+              
                 <div class="summary-card urgent">
+                    <i class="fas fa-exclamation-circle"></i>
+                    <a href="#" class="filter-button urgent" onclick="filterData('SUBMITTED'); return false;">SUBMITTED</a>
+                    <div class="count" id="subCount">0</div>
+                    <p>Submitted for processing</p>
+                </div>
+                <div class="summary-card done">
+                    <i class="fas fa-check-circle"></i>
+                    <a href="#" class="filter-button done" onclick="filterData('COMPLETED'); return false;">COMPLETED</a>
+                    <div class="count" id="comCount">0</div>
+                    <p>Work finished</p>
+                </div>
+
+
+                <div class="summary-card docs">
+                    <i class="fas fa-file-alt"></i>
+                    <a href="#" class="filter-button docs" onclick="filterData('KNOW'); return false;">KNOWCS</a>
+                    <div class="count" id="knowCount">0</div>
+                    <p>Knowledge required</p>
+                </div>
+  <div class="summary-card urgent">
                     <i class="fas fa-exclamation-circle"></i>
                     <a href="#" class="filter-button urgent" onclick="filterData('LEAD'); return false;">LEAD</a>
                     <div class="count" id="leadCount">0</div>
@@ -848,24 +869,12 @@
                     <div class="count" id="empCount">0</div>
                     <p>Requires immediate attention</p>
                 </div>
-                <div class="summary-card urgent">
-                    <i class="fas fa-exclamation-circle"></i>
-                    <a href="#" class="filter-button urgent" onclick="filterData('SUBMITTED'); return false;">SUBMITTED</a>
-                    <div class="count" id="subCount">0</div>
-                    <p>Submitted for processing</p>
-                </div>
 
                 <div class="summary-card docs">
                     <i class="fas fa-file-alt"></i>
                     <a href="#" class="filter-button docs" onclick="filterData('DOCS'); return false;">DOCS</a>
                     <div class="count" id="docsCount">0</div>
                     <p>Waiting for documents</p>
-                </div>
-                <div class="summary-card docs">
-                    <i class="fas fa-file-alt"></i>
-                    <a href="#" class="filter-button docs" onclick="filterData('KNOW'); return false;">KNOWCS</a>
-                    <div class="count" id="knowCount">0</div>
-                    <p>Knowledge required</p>
                 </div>
                 <div class="summary-card docs">
                     <i class="fas fa-file-alt"></i>
@@ -927,12 +936,7 @@
                     <div class="count" id="doneCount">0</div>
                     <p>Work finished</p>
                 </div>
-                <div class="summary-card done">
-                    <i class="fas fa-check-circle"></i>
-                    <a href="#" class="filter-button done" onclick="filterData('COMPLETED'); return false;">COMPLETED</a>
-                    <div class="count" id="comCount">0</div>
-                    <p>Work finished</p>
-                </div>
+
                 <div class="summary-card urgent">
                     <i class="fas fa-exclamation-circle"></i>
                     <a href="#" class="filter-button urgent" onclick="filterData('ALL'); return false;">ALL</a>
