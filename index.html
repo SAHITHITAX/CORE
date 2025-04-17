@@ -775,6 +775,7 @@
                     <select id="statusFilter" onchange="filterByStatus()">
                         <option value="ALL">All Statuses</option>
                         <option value="URGENT">URGENT</option>
+			     <option value="SITE">SITE</option>
                          <option value="REPLY">REPLY</option>
                        <option value="LEAD">LEAD</option>
                         <option value="EMPLOYEE">EMPLOYEE</option>
@@ -823,10 +824,17 @@
                 </div>
                 <div class="summary-card urgent">
                     <i class="fas fa-exclamation-circle"></i>
+                    <a href="#" class="filter-button urgent" onclick="filterData('SITE'); return false;">SITE</a>
+                    <div class="count" id="siteCount">0</div>
+                    <p>Requires immediate attention</p>
+                </div>
+                <div class="summary-card urgent">
+                    <i class="fas fa-exclamation-circle"></i>
                     <a href="#" class="filter-button urgent" onclick="filterData('REPLY'); return false;">REPLY</a>
                     <div class="count" id="replyCount">0</div>
                     <p>Requires immediate attention</p>
                 </div>
+
                 <div class="summary-card urgent">
                     <i class="fas fa-exclamation-circle"></i>
                     <a href="#" class="filter-button urgent" onclick="filterData('LEAD'); return false;">LEAD</a>
@@ -1127,6 +1135,7 @@
                             <label for="status">Status:</label>
                             <select id="status" name="status" required>
                                 <option value="URGENT">URGENT</option>
+				    <option value="SITE">SITE</option>
                                 <option value="REPLY">REPLY</option>
                                  <option value="LEAD">LEAD</option>
                                 <option value="EMPLOYEE">EMPLOYEE</option>
@@ -1746,6 +1755,7 @@ function formatPhoneNumber(rawNumber) {
             
             document.getElementById('totalCount').textContent = filteredData.length;
             document.getElementById('urgentCount').textContent = filteredData.filter(item => item.status === 'URGENT').length;
+	    document.getElementById('siteCount').textContent = filteredData.filter(item => item.status === 'SITE').length;
             document.getElementById('replyCount').textContent = filteredData.filter(item => item.status === 'REPLY').length;
             document.getElementById('leadCount').textContent = filteredData.filter(item => item.status === 'LEAD').length;
             document.getElementById('empCount').textContent = filteredData.filter(item => item.status === 'EMPLOYEE').length;
