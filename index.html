@@ -775,7 +775,6 @@
                     <select id="statusFilter" onchange="filterByStatus()">
                         <option value="ALL">All Statuses</option>
                         <option value="URGENT">URGENT</option>
-			     <option value="SITE">SITE</option>
                          <option value="REPLY">REPLY</option>
                        <option value="LEAD">LEAD</option>
                         <option value="EMPLOYEE">EMPLOYEE</option>
@@ -810,7 +809,12 @@
             </div>
             
             <div class="summary-cards">
-
+                <div class="summary-card urgent">
+                    <i class="fas fa-exclamation-circle"></i>
+                    <a href="#" class="filter-button urgent" onclick="filterData('ALL'); return false;">ALL</a>
+                    <div class="count" id="totalCount">0</div>
+                    <p>Total Clients</p>
+                </div>
                 <div class="summary-card urgent">
                     <i class="fas fa-exclamation-circle"></i>
                     <a href="#" class="filter-button urgent" onclick="filterData('URGENT'); return false;">URGENT</a>
@@ -819,45 +823,11 @@
                 </div>
                 <div class="summary-card urgent">
                     <i class="fas fa-exclamation-circle"></i>
-                    <a href="#" class="filter-button urgent" onclick="filterData('SITE'); return false;">SITE</a>
-                    <div class="count" id="siteCount">0</div>
-                    <p>Requires immediate attention</p>
-                </div>
-                <div class="summary-card urgent">
-                    <i class="fas fa-exclamation-circle"></i>
-                    <a href="#" class="filter-button urgent" onclick="filterData('OTP'); return false;">OTP</a>
-                    <div class="count" id="otpCount">0</div>
-                    <p>OTP Required</p>
-                </div>
-                <div class="summary-card urgent">
-                    <i class="fas fa-exclamation-circle"></i>
                     <a href="#" class="filter-button urgent" onclick="filterData('REPLY'); return false;">REPLY</a>
                     <div class="count" id="replyCount">0</div>
                     <p>Requires immediate attention</p>
                 </div>
-
-              
                 <div class="summary-card urgent">
-                    <i class="fas fa-exclamation-circle"></i>
-                    <a href="#" class="filter-button urgent" onclick="filterData('SUBMITTED'); return false;">SUBMITTED</a>
-                    <div class="count" id="subCount">0</div>
-                    <p>Submitted for processing</p>
-                </div>
-                <div class="summary-card done">
-                    <i class="fas fa-check-circle"></i>
-                    <a href="#" class="filter-button done" onclick="filterData('COMPLETED'); return false;">COMPLETED</a>
-                    <div class="count" id="comCount">0</div>
-                    <p>Work finished</p>
-                </div>
-
-
-                <div class="summary-card docs">
-                    <i class="fas fa-file-alt"></i>
-                    <a href="#" class="filter-button docs" onclick="filterData('KNOW'); return false;">KNOWCS</a>
-                    <div class="count" id="knowCount">0</div>
-                    <p>Knowledge required</p>
-                </div>
-  <div class="summary-card urgent">
                     <i class="fas fa-exclamation-circle"></i>
                     <a href="#" class="filter-button urgent" onclick="filterData('LEAD'); return false;">LEAD</a>
                     <div class="count" id="leadCount">0</div>
@@ -869,12 +839,29 @@
                     <div class="count" id="empCount">0</div>
                     <p>Requires immediate attention</p>
                 </div>
-
+                <div class="summary-card urgent">
+                    <i class="fas fa-exclamation-circle"></i>
+                    <a href="#" class="filter-button urgent" onclick="filterData('SUBMITTED'); return false;">SUBMITTED</a>
+                    <div class="count" id="subCount">0</div>
+                    <p>Submitted for processing</p>
+                </div>
+                <div class="summary-card urgent">
+                    <i class="fas fa-exclamation-circle"></i>
+                    <a href="#" class="filter-button urgent" onclick="filterData('OTP'); return false;">OTP</a>
+                    <div class="count" id="otpCount">0</div>
+                    <p>OTP Required</p>
+                </div>
                 <div class="summary-card docs">
                     <i class="fas fa-file-alt"></i>
                     <a href="#" class="filter-button docs" onclick="filterData('DOCS'); return false;">DOCS</a>
                     <div class="count" id="docsCount">0</div>
                     <p>Waiting for documents</p>
+                </div>
+                <div class="summary-card docs">
+                    <i class="fas fa-file-alt"></i>
+                    <a href="#" class="filter-button docs" onclick="filterData('KNOW'); return false;">KNOWCS</a>
+                    <div class="count" id="knowCount">0</div>
+                    <p>Knowledge required</p>
                 </div>
                 <div class="summary-card docs">
                     <i class="fas fa-file-alt"></i>
@@ -936,12 +923,17 @@
                     <div class="count" id="doneCount">0</div>
                     <p>Work finished</p>
                 </div>
-
-                <div class="summary-card urgent">
-                    <i class="fas fa-exclamation-circle"></i>
-                    <a href="#" class="filter-button urgent" onclick="filterData('ALL'); return false;">ALL</a>
-                    <div class="count" id="totalCount">0</div>
-                    <p>Total Clients</p>
+                <div class="summary-card done">
+                    <i class="fas fa-check-circle"></i>
+                    <a href="#" class="filter-button done" onclick="filterData('COMPLETED'); return false;">COMPLETED</a>
+                    <div class="count" id="comCount">0</div>
+                    <p>Work finished</p>
+                </div>
+                <div class="summary-card done">
+                    <i class="fas fa-check-circle"></i>
+                    <a href="#" class="filter-button done" onclick="filterData('RAJU'); return false;">RAJU</a>
+                    <div class="count" id="rajuCount">0</div>
+                    <p>Assigned to Raju</p>
                 </div>
             </div>
 
@@ -1135,7 +1127,6 @@
                             <label for="status">Status:</label>
                             <select id="status" name="status" required>
                                 <option value="URGENT">URGENT</option>
-				    <option value="SITE">SITE</option>
                                 <option value="REPLY">REPLY</option>
                                  <option value="LEAD">LEAD</option>
                                 <option value="EMPLOYEE">EMPLOYEE</option>
@@ -1197,6 +1188,10 @@
   			      <option value="NOT PAID" selected>NOT PAID</option>
   			  </select>
 			</div>
+ 			<div class="form-group">
+                            <label for="userid">User ID:</label>
+                            <input type="text" id="userid" name="userid">
+                        </div>
 
                         <div class="form-group">
                             <label>&nbsp;</label>
@@ -1348,7 +1343,7 @@
                 username: "raju", 
                 password: "raju123", 
                 name: "Raju", 
-                role: "user", 
+                role: "admin", 
                 assignee: "RAJU",
                 avatar: "https://via.placeholder.com/40/9b59b6/ffffff?text=R",
                 link: "https://script.google.com/macros/s/AKfycbym-MasZm4T1WHQq7ypNpxaaNDTmwKRyA28wwB2N6502Nc_xZux6zEyh7r-85-VVrchVg/exec"
@@ -1619,6 +1614,7 @@ function filterData(status) {
         charges: document.getElementById("charges").value,
         dueDate: document.getElementById("dueDate").value,
         other: document.getElementById("other").value,
+	userid: document.getElementById("userid").value,
     };
 
     if (!formData.name || !formData.mobile || !formData.work) {
@@ -1626,7 +1622,7 @@ function filterData(status) {
         return;
     }
 
-    const endpoint = 'https://script.google.com/macros/s/AKfycbxELzz9upxiHEjlJoaa9h_keQW8dbbhZhxypXpUdSAnNTD5o5y_XKSDlsPDy5t27FrQSA/exec';
+    const endpoint = 'https://script.google.com/macros/s/AKfycbzwliQFNU5fUXXneVhzL2--llB8PA7opsy53hDMa0aM8uyeozdq1EiBBcp--CBz8BChOA/exec';
 
     fetch(endpoint, {
         method: 'POST',
@@ -1701,7 +1697,7 @@ function formatPhoneNumber(rawNumber) {
             document.getElementById("mobileCardsContainer").innerHTML = '';
             document.getElementById("mobileCardsContainer").appendChild(loadingMessage.cloneNode(true));
 
-            const endpoint = 'https://script.google.com/macros/s/AKfycbxELzz9upxiHEjlJoaa9h_keQW8dbbhZhxypXpUdSAnNTD5o5y_XKSDlsPDy5t27FrQSA/exec';
+            const endpoint = 'https://script.google.com/macros/s/AKfycbzwliQFNU5fUXXneVhzL2--llB8PA7opsy53hDMa0aM8uyeozdq1EiBBcp--CBz8BChOA/exec';
             
             fetch(endpoint)
                 .then(response => {
@@ -1755,7 +1751,6 @@ function formatPhoneNumber(rawNumber) {
             
             document.getElementById('totalCount').textContent = filteredData.length;
             document.getElementById('urgentCount').textContent = filteredData.filter(item => item.status === 'URGENT').length;
-	    document.getElementById('siteCount').textContent = filteredData.filter(item => item.status === 'SITE').length;
             document.getElementById('replyCount').textContent = filteredData.filter(item => item.status === 'REPLY').length;
             document.getElementById('leadCount').textContent = filteredData.filter(item => item.status === 'LEAD').length;
             document.getElementById('empCount').textContent = filteredData.filter(item => item.status === 'EMPLOYEE').length;
@@ -1899,6 +1894,10 @@ function formatPhoneNumber(rawNumber) {
                         <span class="card-label">Other:</span>
                         <span class="card-value">${row.other || '-'}</span>
                     </div>
+		    <div class="card-row">
+                        <span class="card-label">User ID:</span>
+                        <span class="card-value">${row.userid || '-'}</span>
+                    </div>
                     <div class="action-buttons">
                         <button class="edit" onclick="editRow(${JSON.stringify(row).replace(/"/g, '&quot;')})">Edit</button>
                         <button class="copy-task" onclick="createSimilarTask(${JSON.stringify(row).replace(/"/g, '&quot;')})">Copy Task</button>
@@ -1928,6 +1927,7 @@ function formatPhoneNumber(rawNumber) {
             chargesInput.style.display = currentUser.role === 'admin' ? '' : 'none';
             document.getElementById("dueDate").value = row.dueDate || '';
 	    document.getElementById("other").value = row.other || '';
+	    document.getElementById("userid").value = row.userid || '';
 
             editMode = true;
             editId = row.id;
@@ -1942,7 +1942,7 @@ function formatPhoneNumber(rawNumber) {
 
         function deleteRow(id) {
             if (confirm("Are you sure you want to delete this record?")) {
-                fetch('https://script.google.com/macros/s/AKfycbxELzz9upxiHEjlJoaa9h_keQW8dbbhZhxypXpUdSAnNTD5o5y_XKSDlsPDy5t27FrQSA/exec', {
+                fetch('https://script.google.com/macros/s/AKfycbzwliQFNU5fUXXneVhzL2--llB8PA7opsy53hDMa0aM8uyeozdq1EiBBcp--CBz8BChOA/exec', {
                     method: 'POST',
                     mode: 'no-cors',
                     headers: {
@@ -2173,6 +2173,8 @@ function sendWhatsAppMessage(row) {
     const today = new Date().toISOString().split('T')[0];
     document.getElementById("dueDate").value = today;
     document.getElementById("other").value = '';
+    document.getElementById("userid").value = '';
+
     
     // Reset edit mode
     editMode = false;
