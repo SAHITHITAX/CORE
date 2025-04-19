@@ -1521,6 +1521,7 @@ function filterData(status) {
     filteredData = filteredData.filter(row => 
         row.status === currentFilter || 
         row.work === currentFilter ||
+	row.userid === currentFilter ||
         row.assign === currentFilter
     );
     
