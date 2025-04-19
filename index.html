@@ -931,7 +931,7 @@
                 </div>
                 <div class="summary-card done">
                     <i class="fas fa-check-circle"></i>
-                    <a href="#" class="filter-button done" onclick="filterData('3681912073'); return false;">3681912073</a>
+                    <a href="#" class="filter-button done" onclick="filterData('Anjaneyulu Torrur'); return false;">Anjaneyulu Torrur</a>
                     <div class="count" id="rajuCount">0</div>
                     <p>Assigned to Raju</p>
                 </div>
@@ -1765,7 +1765,7 @@ function formatPhoneNumber(rawNumber) {
             document.getElementById('balCount').textContent = filteredData.filter(item => item.status === 'BAL').length;
             document.getElementById('ratingCount').textContent = filteredData.filter(item => item.status === 'RATING').length;
             document.getElementById('tobeCount').textContent = filteredData.filter(item => item.status === 'TO BE').length;
-            document.getElementById('rajuCount').textContent = filteredData.filter(item => item.userid === '3681912073').length;
+            document.getElementById('rajuCount').textContent = filteredData.filter(item => item.userid === 'Anjaneyulu Torrur').length;
         }
 
         function renderTable(data) {
