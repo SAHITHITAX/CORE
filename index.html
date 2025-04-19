@@ -803,14 +803,7 @@
                         <option value="PAID">PAID</option>
                      </select>
                 </div>
-                <div class="dashboard-filter">
-                    <label for="userFilter">Filter by User:</label>
-                    <select id="userFilter" onchange="filterByUser()">
-			<option value="ALL">All USER</option>
- 			<option value="3681912073">3681912073</option>
-                        
-                     </select>
-                </div>
+          
                 
                 <button onclick="resetDashboardFilters()">Reset Filters</button>
             </div>
@@ -1561,10 +1554,7 @@ function filterData(status) {
             currentPaidFilter = document.getElementById('paidFilter').value;
             updateDashboardData();
         }
- 	function filterByUser() {
-            currentUserFilter = document.getElementById('userFilter').value;
-            updateDashboardData();
-        }
+
 
 
 
@@ -1596,9 +1586,7 @@ function filterData(status) {
         filteredData = filteredData.filter(row => row.other === currentPaidFilter);
     }
 
-     if (currentUserFilter !== 'ALL') {
-        filteredData = filteredData.filter(row => row.userid === currentUserFilter);
-    }
+
     renderTable(filteredData);
     renderMobileCards(filteredData);
     updateCounts(filteredData);
