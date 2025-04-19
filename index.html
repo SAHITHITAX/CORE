@@ -1810,14 +1810,24 @@ function formatPhoneNumber(rawNumber) {
                 
                 const actionCell = newRow.insertCell(12);
                 actionCell.innerHTML = `
-                    <div class="action-buttons">
-                        <button class="edit" onclick="editRow(${JSON.stringify(row).replace(/"/g, '&quot;')})">Edit</button>
-                        <button class="copy-task" onclick="createSimilarTask(${JSON.stringify(row).replace(/"/g, '&quot;')})">Copy Task</button>
-                        ${currentUser.role === 'admin' ? `<button class="delete" onclick="deleteRow('${row.id}')">Delete</button>` : ''}
-                        ${row.folderId ? `<button class="open-folder" onclick="openFolder('${row.folderId}')">Folder</button>` : ''}
-                        <button class="whatsapp" onclick="sendWhatsAppMessage(${JSON.stringify(row).replace(/"/g, '&quot;')})">WhatsApp</button>
-                        ${row.assign && currentUser.role === 'admin' ? `<button class="whatsapp-assignee" onclick="sendAssigneeWhatsAppMessage(${JSON.stringify(row).replace(/"/g, '&quot;')})">Notify ${row.assign}</button>` : ''}
-                    </div>
+<div class="action-buttons">
+    <button class="edit" onclick="editRow(${JSON.stringify(row).replace(/"/g, '&quot;')})">Edit</button>
+    <button class="copy-task" onclick="createSimilarTask(${JSON.stringify(row).replace(/"/g, '&quot;')})">Copy Task</button>
+    ${currentUser.role === 'admin' ? `<button class="delete" onclick="deleteRow('${row.id}')">Delete</button>` : ''}
+    ${row.folderId ? `<button class="open-folder" onclick="openFolder('${row.folderId}')">Folder</button>` : ''}
+    <button class="whatsapp" onclick="sendWhatsAppMessage(${JSON.stringify(row).replace(/"/g, '&quot;')})">WhatsApp</button>
+    ${row.assign && currentUser.role === 'admin' ? `<button class="whatsapp-assignee" onclick="sendAssigneeWhatsAppMessage(${JSON.stringify(row).replace(/"/g, '&quot;')})">Notify ${row.assign}</button>` : ''}
+    ${row.status !== 'COMPLETED' ? (() => {
+        const days = Math.floor((Date.now() - new Date(row.timestamp)) / (1000 * 60 * 60 * 24));
+        let color = 'gray';
+        if (days < 2) color = 'green';
+        else if (days < 5) color = 'orange';
+        else color = 'red';
+        return `<span class="days-since" style="color:${color}; font-weight: bold;">Pending for ${days} day${days !== 1 ? 's' : ''} </span>`;
+    })() : ''}
+</div>
+
+
                 `;
             });
         }
@@ -1891,14 +1901,24 @@ function formatPhoneNumber(rawNumber) {
                         <span class="card-label">Other:</span>
                         <span class="card-value">${row.other || '-'}</span>
                     </div>
-                    <div class="action-buttons">
-                        <button class="edit" onclick="editRow(${JSON.stringify(row).replace(/"/g, '&quot;')})">Edit</button>
-                        <button class="copy-task" onclick="createSimilarTask(${JSON.stringify(row).replace(/"/g, '&quot;')})">Copy Task</button>
-                        ${currentUser.role === 'admin' ? `<button class="delete" onclick="deleteRow('${row.id}')">Delete</button>` : ''}
-                        ${row.folderId ? `<button class="open-folder" onclick="openFolder('${row.folderId}')">Folder</button>` : ''}
-                        <button class="whatsapp" onclick="sendWhatsAppMessage(${JSON.stringify(row).replace(/"/g, '&quot;')})">WhatsApp</button>
-                        ${row.assign && currentUser.role === 'admin' ? `<button class="whatsapp-assignee" onclick="sendAssigneeWhatsAppMessage(${JSON.stringify(row).replace(/"/g, '&quot;')})">Notify ${row.assign}</button>` : ''}
-                    </div>
+<div class="action-buttons">
+    <button class="edit" onclick="editRow(${JSON.stringify(row).replace(/"/g, '&quot;')})">Edit</button>
+    <button class="copy-task" onclick="createSimilarTask(${JSON.stringify(row).replace(/"/g, '&quot;')})">Copy Task</button>
+    ${currentUser.role === 'admin' ? `<button class="delete" onclick="deleteRow('${row.id}')">Delete</button>` : ''}
+    ${row.folderId ? `<button class="open-folder" onclick="openFolder('${row.folderId}')">Folder</button>` : ''}
+    <button class="whatsapp" onclick="sendWhatsAppMessage(${JSON.stringify(row).replace(/"/g, '&quot;')})">WhatsApp</button>
+    ${row.assign && currentUser.role === 'admin' ? `<button class="whatsapp-assignee" onclick="sendAssigneeWhatsAppMessage(${JSON.stringify(row).replace(/"/g, '&quot;')})">Notify ${row.assign}</button>` : ''}
+    ${row.status !== 'COMPLETED' ? (() => {
+        const days = Math.floor((Date.now() - new Date(row.timestamp)) / (1000 * 60 * 60 * 24));
+        let color = 'gray';
+        if (days < 2) color = 'green';
+        else if (days < 5) color = 'orange';
+        else color = 'red';
+        return `<span class="days-since" style="color:${color}; font-weight: bold;">Pending for  ${days} day${days !== 1 ? 's' : ''} </span>`;
+    })() : ''}
+</div>
+>
+
                 `;
                 mobileContainer.appendChild(card);
             });
