@@ -1832,6 +1832,8 @@ function formatPhoneNumber(rawNumber) {
         else color = 'red';
         return `<span class="days-since" style="color:${color}; font-weight: bold;">Pending for ${days} day${days !== 1 ? 's' : ''} </span>`;
     })() : ''}
+<button class="generate-invoice" onclick="generateInvoice(${JSON.stringify(row).replace(/"/g, '&quot;')})">Generate Invoice</button>
+
 </div>
 
 
@@ -1923,8 +1925,10 @@ function formatPhoneNumber(rawNumber) {
         else color = 'red';
         return `<span class="days-since" style="color:${color}; font-weight: bold;">Pending for  ${days} day${days !== 1 ? 's' : ''} </span>`;
     })() : ''}
+<button class="generate-invoice" onclick="generateInvoice(${JSON.stringify(row).replace(/"/g, '&quot;')})">Generate Invoice</button>
+
 </div>
->
+
 
                 `;
                 mobileContainer.appendChild(card);
@@ -2205,6 +2209,144 @@ function sendWhatsAppMessage(row) {
     // Scroll to form
     document.getElementById("dataForm").scrollIntoView({ behavior: 'smooth' });
 }
+function generateInvoice(row) {
+    const invoiceNo = prompt("Enter Invoice Number:");
+    const gstin = prompt("Enter Client GSTIN:");
+    const amountReceived = parseFloat(prompt("Enter Amount Received:")) || 0;
+    const clientAddress = prompt("Enter Client Address:");
+    const clientState = prompt("Enter Client State:");
+
+    const totalAmount = parseFloat(row.charges || 0);
+    const balanceAmount = totalAmount - amountReceived;
+    const amountInWords = convertNumberToWords(totalAmount);
+
+    const invoiceHTML = `
+        <html>
+        <head>
+            <title>Tax Invoice - ${row.clientName || 'Client'}</title>
+            <style>
+                body { font-family: Arial, sans-serif; margin: 40px; }
+                h1 { text-align: center; }
+                .company-info, .invoice-details { margin-bottom: 20px; }
+                table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+                table, th, td { border: 1px solid #ccc; }
+                th, td { padding: 8px; text-align: left; }
+                .signature { margin-top: 60px; }
+                .button-bar { margin-top: 30px; text-align: center; }
+                button { padding: 8px 20px; margin: 0 10px; font-size: 14px; cursor: pointer; }
+                .horizontal-container { display: flex; justify-content: space-between; align-items: Left; margin-top: 30px; }
+                .horizontal-container > div { flex: 1; text-align: Left; }
+                .horizontal-container img { width: 150px; height: 150px; }
+            </style>
+        </head>
+        <body>
+            <h1>Tax Invoice</h1>
+            <div class="company-info">
+                <strong>SAHITHI TAX CONSULTANCY</strong><br>
+                GSTIN: 36BFGPJ8269A1ZF<br>
+                Plot No 120, C/o G Nikhil Kumar,<br>
+                Anjanapuri Colony, Near Gram Panchayath Office,<br>
+                Munganoor, Hyderabad, Rangareddy, Telangana - 501505
+            </div>
+            <div class="invoice-details">
+                <table>
+                    <tr>
+                        <td style="width:15%;"><strong>Bill To:</strong></td>
+                        <td style="width:35%;" ondblclick="this.contentEditable = true;">${row.name || 'Client'}</td>
+                        <td style="width:15%;"><strong>Invoice No:</strong></td>
+                        <td style="width:35%;" ondblclick="this.contentEditable = true;">${invoiceNo}</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Contact No:</strong></td>
+                        <td ondblclick="this.contentEditable = true;">${row.mobile || 'N/A'}</td>
+                        <td><strong>Date:</strong></td>
+                        <td ondblclick="this.contentEditable = true;">${new Date().toLocaleDateString()}</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Client Address:</strong></td>
+                        <td colspan="3" ondblclick="this.contentEditable = true;">${clientAddress || ''}</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Client GSTIN:</strong></td>
+                        <td ondblclick="this.contentEditable = true;">${gstin || 'N/A'}</td>
+                        <td><strong>State:</strong></td>
+                        <td ondblclick="this.contentEditable = true;">${clientState || ''}</td>
+                    </tr>
+                </table>
+            </div>
+            <table>
+                <tr>
+                    <th style="width:70%">Description</th>
+                    <th style="width:30%">Amount (Inclusive of GST)</th>
+                </tr>
+                <tr>
+                    <td ondblclick="this.contentEditable = true;">${row.work || 'Professional Services'}</td>
+                    <td ondblclick="this.contentEditable = true;">₹${totalAmount.toFixed(2)}</td>
+                </tr>
+                <tr>
+                    <td><strong>Total</strong></td>
+                    <td><strong>₹${totalAmount.toFixed(2)}</strong></td>
+                </tr>
+                <tr>
+                    <td><strong>Received</strong></td>
+                    <td><strong>₹${amountReceived.toFixed(2)}</strong></td>
+                </tr>
+                <tr>
+                    <td><strong>Balance</strong></td>
+                    <td><strong>₹${balanceAmount.toFixed(2)}</strong></td>
+                </tr>
+            </table>
+            <p><strong>Amount in Words:</strong> ${amountInWords} only</p>
+
+            <div class="horizontal-container">
+                <div>
+                    <h3>Payment Details</h3>
+                    <p ondblclick="this.contentEditable = true;"><strong>GPay / PhonePe No:</strong> 8499994485</p>
+                    <p ondblclick="this.contentEditable = true;"><strong>Account Holder Name:</strong> Alekhya</p>
+                    <p ondblclick="this.contentEditable = true;"><strong>Account Number:</strong> 129412010002018</p>
+                    <p ondblclick="this.contentEditable = true;"><strong>IFSC Code:</strong> UBIN0812943</p>
+                    <p ondblclick="this.contentEditable = true;"><strong>UPI ID:</strong> sahithitaxconsultancy-2@okaxis</p>
+                </div>
+
+                <div style="margin-left: 100px;">
+                    <h3>Scan to Pay</h3>
+                    <img src="https://imgur.com/daHPfyT.png" alt="QR Code"><br>
+                </div>
+
+                <div style="margin-left: 20px;">
+                    <h3>Authorized Signature</h3>
+                    <div style="border-bottom: 1px solid #000; width: 150px;"></div>
+                </div>
+            </div>
+        </body>
+        </html>
+    `;
+
+    const invoiceWindow = window.open('', '_blank');
+    invoiceWindow.document.write(invoiceHTML);
+    invoiceWindow.document.close();
+}
+
+// Utility: Convert number to words (Indian Numbering System)
+function convertNumberToWords(amount) {
+    const a = ['', 'One', 'Two', 'Three', 'Four', 'Five', 'Six', 'Seven', 'Eight', 'Nine', 'Ten',
+        'Eleven', 'Twelve', 'Thirteen', 'Fourteen', 'Fifteen', 'Sixteen', 'Seventeen', 'Eighteen', 'Nineteen'];
+    const b = ['', '', 'Twenty', 'Thirty', 'Forty', 'Fifty', 'Sixty', 'Seventy', 'Eighty', 'Ninety'];
+
+    function numToWords(n) {
+        if (n < 20) return a[n];
+        if (n < 100) return b[Math.floor(n / 10)] + (n % 10 ? ' ' + a[n % 10] : '');
+        if (n < 1000) return a[Math.floor(n / 100)] + ' Hundred ' + (n % 100 !== 0 ? numToWords(n % 100) : '');
+        if (n < 100000) return numToWords(Math.floor(n / 1000)) + ' Thousand ' + numToWords(n % 1000);
+        if (n < 10000000) return numToWords(Math.floor(n / 100000)) + ' Lakh ' + numToWords(n % 100000);
+        return numToWords(Math.floor(n / 10000000)) + ' Crore ' + numToWords(n % 10000000);
+    }
+
+    return numToWords(Math.floor(amount));
+}
+
+
+
         </script>
 </body>
 </html>
