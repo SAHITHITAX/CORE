@@ -969,7 +969,7 @@
                             <th>Actions</th>
 			    <th>PAID/NOT PAID</th>
 			    <th>uSER ID</th>
-
+			    <th>DOB</th>
                         </tr>
                     </thead>
                     <tbody id="tableBody">
@@ -1203,6 +1203,14 @@
   			      <option value="NOT PAID" selected>NOT PAID</option>
   			  </select>
 			</div>
+                        <div class="form-group">
+                            <label for="userid">User id:</label>
+                            <input type="text" id="userid" name="userid">
+                        </div>
+                        <div class="form-group">
+                            <label for="dob">DOB Date:</label>
+                            <input type="date" id="dob" name="dob">
+                        </div>
 
                         <div class="form-group">
                             <label>&nbsp;</label>
@@ -1627,6 +1635,9 @@ function filterData(status) {
         charges: document.getElementById("charges").value,
         dueDate: document.getElementById("dueDate").value,
         other: document.getElementById("other").value,
+        userid: document.getElementById("userid").value,
+        dob: document.getElementById("dob").value,
+
     };
 
     if (!formData.name || !formData.mobile || !formData.work) {
@@ -1634,7 +1645,7 @@ function filterData(status) {
         return;
     }
 
-    const endpoint = 'https://script.google.com/macros/s/AKfycbxELzz9upxiHEjlJoaa9h_keQW8dbbhZhxypXpUdSAnNTD5o5y_XKSDlsPDy5t27FrQSA/exec';
+    const endpoint = 'https://script.google.com/macros/s/AKfycbzq_skXYPJCyHxO4iuLlSFlkp2qfEp7gPInPoQrPOPyMwVbQzxmaQ2bQ6JSNg2iEbm-8g/exec';
 
     fetch(endpoint, {
         method: 'POST',
@@ -1709,7 +1720,7 @@ function formatPhoneNumber(rawNumber) {
             document.getElementById("mobileCardsContainer").innerHTML = '';
             document.getElementById("mobileCardsContainer").appendChild(loadingMessage.cloneNode(true));
 
-            const endpoint = 'https://script.google.com/macros/s/AKfycbxELzz9upxiHEjlJoaa9h_keQW8dbbhZhxypXpUdSAnNTD5o5y_XKSDlsPDy5t27FrQSA/exec';
+            const endpoint = 'https://script.google.com/macros/s/AKfycbzq_skXYPJCyHxO4iuLlSFlkp2qfEp7gPInPoQrPOPyMwVbQzxmaQ2bQ6JSNg2iEbm-8g/exec';
             
             fetch(endpoint)
                 .then(response => {
@@ -1822,6 +1833,8 @@ function formatPhoneNumber(rawNumber) {
                 newRow.insertCell(11).innerText = row.dueDate || '-';
                 newRow.insertCell(12).innerText = row.other || '-';
 		newRow.insertCell(13).innerText = row.userid || '-';
+		newRow.insertCell(14).innerText = row.dob || '-';
+
 
                 
                 const actionCell = newRow.insertCell(12);
@@ -1919,6 +1932,14 @@ function formatPhoneNumber(rawNumber) {
                         <span class="card-label">Other:</span>
                         <span class="card-value">${row.other || '-'}</span>
                     </div>
+		    <div class="card-row">
+                        <span class="card-label">user id:</span>
+                        <span class="card-value">${row.userid || '-'}</span>
+                    </div>
+                    <div class="card-row">
+                        <span class="card-label">DOB Date:</span>
+                        <span class="card-value">${row.dob || '-'}</span>
+                    </div>
 <div class="action-buttons">
     <button class="edit" onclick="editRow(${JSON.stringify(row).replace(/"/g, '&quot;')})">Edit</button>
     <button class="copy-task" onclick="createSimilarTask(${JSON.stringify(row).replace(/"/g, '&quot;')})">Copy Task</button>
@@ -1960,7 +1981,9 @@ function formatPhoneNumber(rawNumber) {
             chargesInput.style.display = currentUser.role === 'admin' ? '' : 'none';
             document.getElementById("dueDate").value = row.dueDate || '';
 	    document.getElementById("other").value = row.other || 'NOT PAID';
-	    
+	    document.getElementById("userid").value = row.userid || '';
+            document.getElementById("dob").value = row.dob || '';
+
 
             editMode = true;
             editId = row.id;
@@ -1975,7 +1998,7 @@ function formatPhoneNumber(rawNumber) {
 
         function deleteRow(id) {
             if (confirm("Are you sure you want to delete this record?")) {
-                fetch('https://script.google.com/macros/s/AKfycbxELzz9upxiHEjlJoaa9h_keQW8dbbhZhxypXpUdSAnNTD5o5y_XKSDlsPDy5t27FrQSA/exec', {
+                fetch('https://script.google.com/macros/s/AKfycbzq_skXYPJCyHxO4iuLlSFlkp2qfEp7gPInPoQrPOPyMwVbQzxmaQ2bQ6JSNg2iEbm-8g/exec', {
                     method: 'POST',
                     mode: 'no-cors',
                     headers: {
@@ -2206,6 +2229,9 @@ function sendWhatsAppMessage(row) {
     const today = new Date().toISOString().split('T')[0];
     document.getElementById("dueDate").value = today;
     document.getElementById("other").value = '';
+    document.getElementById("userid").value = '';
+    document.getElementById("dob").value = '';
+
     
     // Reset edit mode
     editMode = false;
