@@ -1840,7 +1840,7 @@ function formatPhoneNumber(rawNumber) {
                 
                 const actionCell = newRow.insertCell(12);
                 actionCell.innerHTML = `
-<div class="action-buttons">
+<div class="action-buttons" style="width: 500px;">
     <button class="edit" onclick="editRow(${JSON.stringify(row).replace(/"/g, '&quot;')})">Edit</button>
     <button class="copy-task" onclick="createSimilarTask(${JSON.stringify(row).replace(/"/g, '&quot;')})">Copy Task</button>
     ${currentUser.role === 'admin' ? `<button class="delete" onclick="deleteRow('${row.id}')">Delete</button>` : ''}
@@ -1942,7 +1942,7 @@ function formatPhoneNumber(rawNumber) {
                         <span class="card-label">DOB Date:</span>
                         <span class="card-value">${row.dob || '-'}</span>
                     </div>
-<div class="action-buttons">
+<div class="action-buttons" style="width: 500px;">
     <button class="edit" onclick="editRow(${JSON.stringify(row).replace(/"/g, '&quot;')})">Edit</button>
     <button class="copy-task" onclick="createSimilarTask(${JSON.stringify(row).replace(/"/g, '&quot;')})">Copy Task</button>
     ${currentUser.role === 'admin' ? `<button class="delete" onclick="deleteRow('${row.id}')">Delete</button>` : ''}
