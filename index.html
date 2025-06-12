@@ -1840,7 +1840,7 @@ function formatPhoneNumber(rawNumber) {
                 
                 const actionCell = newRow.insertCell(12);
                 actionCell.innerHTML = `
-<div class="action-buttons" style="width: 200px;">
+<div class="action-buttons">
     <button class="edit" onclick="editRow(${JSON.stringify(row).replace(/"/g, '&quot;')})">Edit</button>
     <button class="copy-task" onclick="createSimilarTask(${JSON.stringify(row).replace(/"/g, '&quot;')})">Copy Task</button>
     ${currentUser.role === 'admin' ? `<button class="delete" onclick="deleteRow('${row.id}')">Delete</button>` : ''}
@@ -1858,6 +1858,8 @@ function formatPhoneNumber(rawNumber) {
     <button class="generate-invoice" onclick="generateInvoice(${JSON.stringify(row).replace(/"/g, '&quot;')})">Generate Invoice</button>
     ${row.work === 'New GST Registration' || row.work === 'Casual Taxable Person - GST' || row.work === 'Composition Scheme' ? 
         `<button class="gst-portal" onclick="window.open('https://reg.gst.gov.in/registration/', '_blank')">GST Portal</button>` : ''}
+    ${row.work === 'Labour Licence' ? 
+        `<button class="labour-portal" onclick="window.open('https://labour.telangana.gov.in/Entrepreneur.do', '_blank')">Labour Portal</button>` : ''}
 </div>
 
 
@@ -1942,7 +1944,7 @@ function formatPhoneNumber(rawNumber) {
                         <span class="card-label">DOB Date:</span>
                         <span class="card-value">${row.dob || '-'}</span>
                     </div>
-<div class="action-buttons" style="width: 200px;">
+<div class="action-buttons">
     <button class="edit" onclick="editRow(${JSON.stringify(row).replace(/"/g, '&quot;')})">Edit</button>
     <button class="copy-task" onclick="createSimilarTask(${JSON.stringify(row).replace(/"/g, '&quot;')})">Copy Task</button>
     ${currentUser.role === 'admin' ? `<button class="delete" onclick="deleteRow('${row.id}')">Delete</button>` : ''}
@@ -1960,6 +1962,8 @@ function formatPhoneNumber(rawNumber) {
     <button class="generate-invoice" onclick="generateInvoice(${JSON.stringify(row).replace(/"/g, '&quot;')})">Generate Invoice</button>
     ${row.work === 'New GST Registration' || row.work === 'Casual Taxable Person - GST' || row.work === 'Composition Scheme' ? 
         `<button class="gst-portal" onclick="window.open('https://reg.gst.gov.in/registration/', '_blank')">GST Portal</button>` : ''}
+    ${row.work === 'Labour Licence' ? 
+        `<button class="labour-portal" onclick="window.open('https://labour.telangana.gov.in/Entrepreneur.do', '_blank')">Labour Portal</button>` : ''}
 </div>
 
 
