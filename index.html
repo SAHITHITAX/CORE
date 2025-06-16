@@ -2393,7 +2393,25 @@ function convertNumberToWords(amount) {
 
     return numToWords(Math.floor(amount));
 }
-
+function copyToClipboard(text) {
+    // Create a temporary textarea element
+    const textarea = document.createElement('textarea');
+    textarea.value = text;
+    textarea.style.position = 'fixed';  // Prevent scrolling to bottom
+    document.body.appendChild(textarea);
+    textarea.select();
+    
+    try {
+        // Copy the text
+        document.execCommand('copy');
+        alert('Copied to clipboard: ' + text);
+    } catch (err) {
+        console.error('Failed to copy text: ', err);
+    } finally {
+        // Clean up
+        document.body.removeChild(textarea);
+    }
+}
 
 
         </script>
