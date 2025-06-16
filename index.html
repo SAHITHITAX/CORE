@@ -1855,13 +1855,13 @@ function formatPhoneNumber(rawNumber) {
         else color = 'red';
         return `<span class="days-since" style="color:${color}; font-weight: bold;">Pending for  ${days} day${days !== 1 ? 's' : ''} </span>`;
     })() : ''}
-    <button class="generate-invoice" onclick="generateInvoice(${JSON.stringify(row).replace(/"/g, '&quot;')})">Generate Invoice</button>
-    ${row.work === 'New GST Registration' || row.work === 'Casual Taxable Person - GST' || row.work === 'Composition Scheme' ? 
-        `<button class="gst-portal" onclick="window.open('https://reg.gst.gov.in/registration/', '_blank')">GST Portal</button>` : ''}
-    ${row.work === 'Labour Licence' ? 
-        `<button class="labour-portal" onclick="window.open('https://labour.telangana.gov.in/Entrepreneur.do', '_blank')">Labour Portal</button>` : ''}
-	 ${row.work === 'MCA (ROC) Filings' ? 
-        `<button class="MCA-portal" onclick="window.open('https://www.mca.gov.in/content/mca/global/en/foportal/fologin.html', '_blank')">MCA Portal</button>` : ''}
+   <button class="generate-invoice" onclick="generateInvoice(${JSON.stringify(row).replace(/"/g, '&quot;')})">Generate Invoice</button>
+${row.work === 'New GST Registration' || row.work === 'Casual Taxable Person - GST' || row.work === 'Composition Scheme' ? 
+    `<button class="gst-portal" onclick="window.open('https://reg.gst.gov.in/registration/', '_blank'); copyToClipboard('${row.username}')">GST Portal</button>` : ''}
+${row.work === 'Labour Licence' ? 
+    `<button class="labour-portal" onclick="window.open('https://labour.telangana.gov.in/Entrepreneur.do', '_blank'); copyToClipboard('${row.username}')">Labour Portal</button>` : ''}
+${row.work === 'MCA (ROC) Filings' ? 
+    `<button class="MCA-portal" onclick="window.open('https://www.mca.gov.in/content/mca/global/en/foportal/fologin.html', '_blank'); copyToClipboard('${row.username}')">MCA Portal</button>` : ''}
 </div>
 
 
@@ -1961,11 +1961,13 @@ function formatPhoneNumber(rawNumber) {
         else color = 'red';
         return `<span class="days-since" style="color:${color}; font-weight: bold;">Pending for  ${days} day${days !== 1 ? 's' : ''} </span>`;
     })() : ''}
-    <button class="generate-invoice" onclick="generateInvoice(${JSON.stringify(row).replace(/"/g, '&quot;')})">Generate Invoice</button>
-    ${row.work === 'New GST Registration' || row.work === 'Casual Taxable Person - GST' || row.work === 'Composition Scheme' ? 
-        `<button class="gst-portal" onclick="window.open('https://reg.gst.gov.in/registration/', '_blank')">GST Portal</button>` : ''}
-    ${row.work === 'Labour Licence' ? 
-        `<button class="labour-portal" onclick="window.open('https://labour.telangana.gov.in/Entrepreneur.do', '_blank')">Labour Portal</button>` : ''}
+   <button class="generate-invoice" onclick="generateInvoice(${JSON.stringify(row).replace(/"/g, '&quot;')})">Generate Invoice</button>
+${row.work === 'New GST Registration' || row.work === 'Casual Taxable Person - GST' || row.work === 'Composition Scheme' ? 
+    `<button class="gst-portal" onclick="window.open('https://reg.gst.gov.in/registration/', '_blank'); copyToClipboard('${row.username}')">GST Portal</button>` : ''}
+${row.work === 'Labour Licence' ? 
+    `<button class="labour-portal" onclick="window.open('https://labour.telangana.gov.in/Entrepreneur.do', '_blank'); copyToClipboard('${row.username}')">Labour Portal</button>` : ''}
+${row.work === 'MCA (ROC) Filings' ? 
+    `<button class="MCA-portal" onclick="window.open('https://www.mca.gov.in/content/mca/global/en/foportal/fologin.html', '_blank'); copyToClipboard('${row.username}')">MCA Portal</button>` : ''}
 </div>
 
 
