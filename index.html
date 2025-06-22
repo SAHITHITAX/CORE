@@ -2242,7 +2242,7 @@ function sendWhatsAppMessage(row) {
     document.getElementById("dueDate").value = today;
     document.getElementById("other").value = '';
     document.getElementById("userid").value = '';
-    document.getElementById("dob").value = '';
+    document.getElementById("dob").value = row.dob ||'';
 
     
     // Reset edit mode
