@@ -1862,6 +1862,8 @@ ${row.work === 'Labour Licence' ?
     `<button class="labour-portal" onclick="window.open('https://labour.telangana.gov.in/Entrepreneur.do', '_blank'); copyToClipboard('${row.username}')">Labour Portal</button>` : ''}
 ${row.work === 'MCA (ROC) Filings' ? 
     `<button class="MCA-portal" onclick="window.open('https://www.mca.gov.in/content/mca/global/en/foportal/fologin.html', '_blank'); copyToClipboard('${row.username}')">MCA Portal</button>` : ''}
+    ${row.work === 'Apply for New PAN' ? 
+    `<button class="MCA-portal" onclick="window.open('https://sahithitax.github.io/PANAPP/', '_blank'); copyToClipboard('${row.username}')">NEW PAN</button>` : ''}
 </div>
 
 
