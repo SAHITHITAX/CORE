@@ -2093,7 +2093,7 @@ function sendWhatsAppMessage(row) {
     }
 
     const encodedMessage = encodeURIComponent(message);
-    const whatsappUrl = `https://wa.me/${internationalMobile}?text=${encodedMessage}`;
+    const whatsappUrl = `https://wa.me/${formattedMobile}?text=${encodedMessage}`;
     window.open(whatsappUrl, "_blank");
 }
 
