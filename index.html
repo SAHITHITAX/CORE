@@ -1719,8 +1719,19 @@ function sendWhatsAppMessages(formData) {
 }
 
 function formatPhoneNumber(rawNumber) {
-    return rawNumber.replace(/\D/g, ''); // Remove spaces, +, etc.
+    let digitsOnly = rawNumber.replace(/\D/g, ''); // Remove non-digit characters
+
+    // If the number doesn't start with '91' and has 10 digits, add '91'
+    if (digitsOnly.length === 10) {
+        digitsOnly = '91' + digitsOnly;
+    } else if (digitsOnly.length > 10 && !digitsOnly.startsWith('91')) {
+        // For numbers longer than 10 digits not starting with 91, optionally handle
+        digitsOnly = '91' + digitsOnly.slice(-10); // Take last 10 digits and add '91'
+    }
+
+    return digitsOnly;
 }
+
 
 
         function fetchData() {
