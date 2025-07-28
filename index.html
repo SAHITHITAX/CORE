@@ -2053,15 +2053,13 @@ ${row.work === 'MCA (ROC) Filings' ?
         }
 
 function sendWhatsAppMessage(row) {
-    const mobile = row.mobile.replace(/\D/g, '');
-    let internationalMobile;
+    const mobile = row.mobile.replace(/\D/g, '');  // Only digits
+    let formattedMobile;
 
-    if (mobile.startsWith('+')) {
-        internationalMobile = mobile;
-    } else if (mobile.startsWith('91') && mobile.length === 12) {
-        internationalMobile = `+${mobile}`;
+    if (mobile.length === 12 && mobile.startsWith('91')) {
+        formattedMobile = mobile;
     } else if (mobile.length === 10) {
-        internationalMobile = `+91${mobile}`;
+        formattedMobile = '91' + mobile;
     } else {
         alert("Invalid mobile number format");
         return;
