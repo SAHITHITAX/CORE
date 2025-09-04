@@ -817,6 +817,13 @@
                     <div class="count" id="totalCount">0</div>
                     <p>Total Clients</p>
                 </div>
+                <div class="summary-card done">
+                    <i class="fas fa-check-circle"></i>
+                    <a href="#" class="filter-button done" onclick="filterData('JUSTDAIL'); return false;">JUSTDAIL</a>
+                    <div class="count" id="jdCount">0</div>
+                    <p>Work finished</p>
+                </div>
+
                 <div class="summary-card urgent">
                     <i class="fas fa-exclamation-circle"></i>
                     <a href="#" class="filter-button urgent" onclick="filterData('URGENT'); return false;">URGENT</a>
@@ -1154,7 +1161,8 @@
                                 <option value="POTENTIAL">POTENTIAL</option>
                                 <option value="RATING">RATING</option>
                                 <option value="DONE">DONE</option>
-                                 <option value="COMPLETED">COMPLETED</option>
+                                <option value="JUSTDAIL">JUSTDAIL</option>
+                                <option value="COMPLETED">COMPLETED</option>
                                 <option value="REMIND">REMIND</option>
                                 <option value="BAL">BAL</option>
                                 <option value="WAIT">WAIT</option>
@@ -1810,6 +1818,7 @@ function formatPhoneNumber(rawNumber) {
             document.getElementById('newCount').textContent = filteredData.filter(item => item.status === 'NEW').length;
             document.getElementById('doneCount').textContent = filteredData.filter(item => item.status === 'DONE').length;
             document.getElementById('comCount').textContent = filteredData.filter(item => item.status === 'COMPLETED').length;
+            document.getElementById('jdCount').textContent = filteredData.filter(item => item.status === 'JUSTDAIL').length;
             document.getElementById('otpCount').textContent = filteredData.filter(item => item.status === 'OTP').length;
             document.getElementById('remindCount').textContent = filteredData.filter(item => item.status === 'REMIND').length;
             document.getElementById('callCount').textContent = filteredData.filter(item => item.status === 'CALL').length;
@@ -2053,18 +2062,27 @@ ${row.work === 'MCA (ROC) Filings' ?
         }
 
 function sendWhatsAppMessage(row) {
-    const mobile = row.mobile.replace(/\D/g, '');  // Only digits
-    let formattedMobile;
-
-    if (mobile.length === 12 && mobile.startsWith('91')) {
-        formattedMobile = mobile;
-    } else if (mobile.length === 10) {
-        formattedMobile = '91' + mobile;
-    } else {
-        alert("Invalid mobile number format");
+    if (!row.mobile) {
+        alert("No mobile number found");
         return;
     }
 
+    // Remove everything except digits
+    let mobile = row.mobile.toString().replace(/\D/g, '');
+
+    // Handle cases: 10-digit, 12-digit with 91, or leading 0
+    if (mobile.length === 10) {
+        mobile = '91' + mobile;
+    } else if (mobile.length === 11 && mobile.startsWith('0')) {
+        mobile = '91' + mobile.substring(1);  // remove leading 0
+    } else if (mobile.length === 12 && mobile.startsWith('91')) {
+        // already correct
+    } else {
+        alert("Invalid mobile number format: " + row.mobile);
+        return;
+    }
+
+    // Ask message type
     const messageType = prompt(
         "Choose message type:\n1 - Hi\n2 - Send me docs\n3 - Gentle reminder\n4 - Payment",
         "1"
@@ -2073,7 +2091,6 @@ function sendWhatsAppMessage(row) {
     if (!messageType) return;
 
     let message = "";
-
     switch (messageType.trim()) {
         case '1':
             message = `Hi ${row.name || 'there'},\n\nHope you're doing well!\n\n- TaxPulse Team`;
@@ -2085,7 +2102,7 @@ function sendWhatsAppMessage(row) {
             message = `Hi ${row.name || 'there'},\n\nJust a gentle reminder to send the pending documents for your ${row.work || 'service'}.\n\nThank you,\nTaxPulse Team`;
             break;
         case '4':
-            message = `Hello ${row.name || 'there'},\n\nYour ${row.work || 'work'} has been completed successfully. The charges are ₹${row.charges}.\n\nGpay No/ Phone pe No 8499994485.                                                               Name : Alekhya.                                                                 A/c No.129412010002018                                                              IFSC Code. UBIN0812943                                              UPI id. sahithitaxconsultancy-2@okaxis\n\nPlease consider giving us a rating, it helps a lot!\n\nhttps://www.justdial.com/Rangareddy/Sahithi-Tax-Consultancy-Near-Gram-Panchayat-Hayath-Nagar/040PXX40-XX40-240128082904-G1Z7_BZDET/writereview?city=Rangareddy\n\nThank you,\nTaxPulse Team`;
+            message = `Hello ${row.name || 'there'},\n\nYour ${row.work || 'work'} has been completed successfully. The charges are ₹${row.charges}.\n\nGpay No/ Phone pe No 8499994485.\nName: Alekhya.\nA/c No. 129412010002018\nIFSC Code: UBIN0812943\nUPI id: sahithitaxconsultancy-2@okaxis\n\nPlease consider giving us a rating, it helps a lot!\n\nhttps://www.justdial.com/Rangareddy/Sahithi-Tax-Consultancy-Near-Gram-Panchayat-Hayath-Nagar/040PXX40-XX40-240128082904-G1Z7_BZDET/writereview?city=Rangareddy\n\nThank you,\nTaxPulse Team`;
             break;
         default:
             alert("Invalid choice. Please enter 1, 2, 3, or 4.");
@@ -2093,7 +2110,7 @@ function sendWhatsAppMessage(row) {
     }
 
     const encodedMessage = encodeURIComponent(message);
-    const whatsappUrl = `https://wa.me/${formattedMobile}?text=${encodedMessage}`;
+    const whatsappUrl = `https://wa.me/${mobile}?text=${encodedMessage}`;
     window.open(whatsappUrl, "_blank");
 }
 
