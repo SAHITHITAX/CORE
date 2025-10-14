@@ -685,6 +685,27 @@
 .copy-task:hover { 
     background-color: #8e44ad; 
 }
+button.loading {
+  pointer-events: none;
+  opacity: 0.7;
+}
+
+.spinner {
+  border: 2px solid #f3f3f3;
+  border-top: 2px solid #3498db;
+  border-radius: 50%;
+  width: 14px;
+  height: 14px;
+  animation: spin 1s linear infinite;
+  display: inline-block;
+  vertical-align: middle;
+  margin-right: 5px;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
     </style>
 </head>
 <body>
@@ -1226,7 +1247,8 @@
                         <div class="form-group">
                             <label>&nbsp;</label>
                             <input type="hidden" id="editId">
-                            <button type="button" onclick="submitForm()">Submit Data</button>
+                            <button id="submitBtn" type="button" onclick="submitForm()">Submit Data</button>
+
                         </div>
                     </div>
                 </form>
@@ -1654,55 +1676,66 @@ function filterData(status) {
 
 
  function submitForm() {
-    const formData = {
-        id: editMode ? editId : null,
-        name: document.getElementById("name").value,
-        mobile: document.getElementById("mobile").value,
-        email: document.getElementById("email").value,
-        work: document.getElementById("work").value,
-        assign: document.getElementById("assign").value,
-        status: document.getElementById("status").value,
-        remark: document.getElementById("remark").value,
-        username: document.getElementById("username").value,
-        password: document.getElementById("password").value,
-        charges: document.getElementById("charges").value,
-        dueDate: document.getElementById("dueDate").value,
-        other: document.getElementById("other").value,
-        userid: document.getElementById("userid").value,
-        dob: document.getElementById("dob").value,
+  const btn = document.getElementById('submitBtn');
+  btn.disabled = true;
+  btn.classList.add('loading');
+  btn.innerHTML = '<span class="spinner"></span>Submitting...';
 
-    };
+  const formData = {
+    id: editMode ? editId : null,
+    name: document.getElementById("name").value,
+    mobile: document.getElementById("mobile").value,
+    email: document.getElementById("email").value,
+    work: document.getElementById("work").value,
+    assign: document.getElementById("assign").value,
+    status: document.getElementById("status").value,
+    remark: document.getElementById("remark").value,
+    username: document.getElementById("username").value,
+    password: document.getElementById("password").value,
+    charges: document.getElementById("charges").value,
+    dueDate: document.getElementById("dueDate").value,
+    other: document.getElementById("other").value,
+    userid: document.getElementById("userid").value,
+    dob: document.getElementById("dob").value,
+  };
 
-    if (!formData.name || !formData.mobile || !formData.work || !formData.dob) {
-        alert("Please fill in all required fields");
-        return;
-    }
+  if (!formData.name || !formData.mobile || !formData.work || !formData.dob) {
+    alert("Please fill in all required fields");
+    resetButton(btn);
+    return;
+  }
 
-    const endpoint = 'https://script.google.com/macros/s/AKfycbzq_skXYPJCyHxO4iuLlSFlkp2qfEp7gPInPoQrPOPyMwVbQzxmaQ2bQ6JSNg2iEbm-8g/exec';
+  const endpoint = 'https://script.google.com/macros/s/AKfycbzq_skXYPJCyHxO4iuLlSFlkp2qfEp7gPInPoQrPOPyMwVbQzxmaQ2bQ6JSNg2iEbm-8g/exec';
 
-    fetch(endpoint, {
-        method: 'POST',
-        mode: 'no-cors',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(formData)
-    }).then(() => {
-        alert(editMode ? "Data updated successfully!" : "New client added!");
-        document.getElementById("dataForm").reset();
-        editMode = false;
-        editId = null;
-        fetchData();
-        loadDashboardData();
-
-
-
-    }).catch(error => {
-        console.error("Error:", error);
-        alert("An error occurred. Please try again.");
-    });
+  fetch(endpoint, {
+    method: 'POST',
+    mode: 'no-cors',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(formData)
+  })
+  .then(() => {
+    alert(editMode ? "Data updated successfully!" : "New client added!");
+    document.getElementById("dataForm").reset();
+    editMode = false;
+    editId = null;
+    loadDashboardData();
+    fetchData();
+  })
+  .catch(error => {
+    console.error("Error:", error);
+    alert("An error occurred. Please try again.");
+  })
+  .finally(() => {
+    // restore button after submission completes
+    resetButton(btn);
+  });
 }
 
+function resetButton(btn) {
+  btn.disabled = false;
+  btn.classList.remove('loading');
+  btn.innerHTML = 'Submit Data';
+}
 
 
 function sendWhatsAppMessages(formData) {
