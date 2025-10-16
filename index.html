@@ -841,6 +841,7 @@ button.loading {
                        <option value="LEAD">LEAD</option>
                         <option value="EMPLOYEE">EMPLOYEE</option>
                         <option value="SUBMITTED">SUBMITTED</option>
+						<option value="PAN">PAN</option>
                         <option value="OTP">OTP</option>
                         <option value="DOCS">DOCS</option>
                         <option value="KNOW">KNOW</option>
@@ -924,6 +925,12 @@ button.loading {
                     <a href="#" class="filter-button urgent" onclick="filterData('SUBMITTED'); return false;">SUBMITTED</a>
                     <div class="count" id="subCount">0</div>
                     <p>Submitted for processing</p>
+                </div>
+                <div class="summary-card urgent">
+                    <i class="fas fa-exclamation-circle"></i>
+                    <a href="#" class="filter-button urgent" onclick="filterData('PAN'); return false;">PAN</a>
+                    <div class="count" id="panCount">0</div>
+                    <p>PAN for processing</p>
                 </div>
                 <div class="summary-card urgent">
                     <i class="fas fa-exclamation-circle"></i>
@@ -1225,6 +1232,7 @@ button.loading {
                                 <option value="EMPLOYEE">EMPLOYEE</option>
                                 <option value="OTP">OTP</option>
                                 <option value="SUBMITTED">SUBMITTED</option>
+								 <option value="PAN">PAN</option>
                                 <option value="KNOW">KNOW</option>
                                 <option value="DOCS">DOCS</option>
                                 <option value="POTENTIAL">POTENTIAL</option>
@@ -1893,6 +1901,7 @@ function formatPhoneNumber(rawNumber) {
             document.getElementById('leadCount').textContent = filteredData.filter(item => item.status === 'LEAD').length;
             document.getElementById('empCount').textContent = filteredData.filter(item => item.status === 'EMPLOYEE').length;
             document.getElementById('subCount').textContent = filteredData.filter(item => item.status === 'SUBMITTED').length;
+			document.getElementById('panCount').textContent = filteredData.filter(item => item.status === 'PAN').length;
             document.getElementById('knowCount').textContent = filteredData.filter(item => item.status === 'KNOW').length;
             document.getElementById('waitCount').textContent = filteredData.filter(item => item.status === 'WAIT').length;
             document.getElementById('docsCount').textContent = filteredData.filter(item => item.status === 'DOCS').length;
