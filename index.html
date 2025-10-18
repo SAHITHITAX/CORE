@@ -2435,12 +2435,12 @@ function sendWhatsAppMessage(row) {
     // Clear these fields as they're likely different for the new task
     document.getElementById("username").value = row.username || '';
     document.getElementById("password").value = row.password || '';
-    document.getElementById("charges").textContent = 'NOT PAID';
+    document.getElementById("charges").value = '';
     
     // Set today's date as default for due date
     const today = new Date().toISOString().split('T')[0];
     document.getElementById("dueDate").value = today;
-    document.getElementById("other").value = '';
+    document.getElementById("other").value = 'NOT PAID';
     document.getElementById("userid").value = '';
     document.getElementById("dob").value = row.dob ||'';
 
